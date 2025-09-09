@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
+    "@astrojs/vercel": "^8.2.7",
     "@fontsource-variable/gabarito": "^5.1.0",
     "@fontsource/be-vietnam-pro": "^5.1.0",
     "@tailwindcss/vite": "^4.1.12",
     "astro": "^5.13.2",
+    "google-auth-library": "^9.0.0",
+    "googleapis": "^127.0.0",
     "tailwindcss": "^4.1.12",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "undici": "^6.19.8"
   },
   "devDependencies": {
     "prettier": "^3.5.3",

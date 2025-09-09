@@ -1,0 +1,47 @@
+---
+const { total = 0, goal = 150, supporters = 0 } = Astro.props;
+const pct = Math.min(100, Math.round((total/goal)*100));
+---
+<section class="p-6 rounded-2xl border bg-white/5 backdrop-blur-sm">
+  <div class="flex items-center justify-between mb-2">
+    <h3 class="text-lg font-semibold text-white">Progresso da campanha</h3>
+    <span class="text-emerald-400 font-bold" data-percentage>{pct}%</span>
+  </div>
+  <div class="w-full h-3 bg-gray-700/40 rounded-full overflow-hidden">
+    <div 
+      data-progress-bar
+      style={`width:${pct}%`} 
+      class="h-3 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-[width] duration-500 ease-out"
+    ></div>
+  </div>
+  <p class="mt-3 text-gray-300">
+    <strong class="text-emerald-400" data-total>R$ {total}</strong> de R$ {goal}/mês • <span data-supporters>{supporters}</span> assinantes
+  </p>
+</section>
+
+<script>
+  // Atualiza o progresso a cada 30 segundos
+  setInterval(async () => {
+    try {
+      const response = await fetch('/api/progresso');
+      const data = await response.json();
+      
+      // Atualiza os elementos na página
+      const progressElement = document.querySelector('[data-progress-bar]');
+      const totalElement = document.querySelector('[data-total]');
+      const supportersElement = document.querySelector('[data-supporters]');
+      const percentageElement = document.querySelector('[data-percentage]');
+      
+      if (progressElement && totalElement && supportersElement && percentageElement) {
+        const percentage = Math.min(100, Math.round((data.totalMonthly / data.goal) * 100));
+        
+        (progressElement as HTMLElement).style.width = `${percentage}%`;
+        totalElement.textContent = `R$ ${data.totalMonthly}`;
+        supportersElement.textContent = `${data.supporters}`;
+        percentageElement.textContent = `${percentage}%`;
+      }
+    } catch (error) {
+      console.log('Erro ao atualizar progresso:', error);
+    }
+  }, 30000);
+</script>
