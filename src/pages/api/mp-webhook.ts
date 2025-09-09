@@ -30,6 +30,15 @@ async function fetchPreapproval(preapprovalId: string) {
 }
 
 export const POST: APIRoute = async ({ request }) => {
+  // Validação de método
+  if (new URL(request.url).pathname.endsWith('/mp-webhook') && request.method !== 'POST') {
+    return new Response('method not allowed', { status: 405 });
+  }
+  
+  // Validação de tamanho do payload
+  const len = Number(request.headers.get('content-length') || '0');
+  if (len > 200_000) return new Response('payload too large', { status: 413 });
+
   const raw = await request.text();
   let body: any;
   try { body = JSON.parse(raw); } catch { return new Response('bad json', { status: 400 }); }
@@ -57,7 +66,8 @@ export const POST: APIRoute = async ({ request }) => {
     hasSig: !!sigHeader, 
     isPreapproval, 
     isPayment,
-    reqId: reqId.substring(0, 8) + '...'
+    reqId: reqId.substring(0, 8) + '...',
+    payloadSize: len
   });
 
   // Normalização de campos
@@ -112,5 +122,6 @@ export const POST: APIRoute = async ({ request }) => {
     }
   });
 
+  console.log('[mp-webhook] append ok', { targetRange, amount, status });
   return new Response('ok', { status: 200 });
 };
