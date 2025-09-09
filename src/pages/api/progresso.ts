@@ -8,9 +8,30 @@ const APPROVED = new Set(['authorized','active','approved','paid']);
 
 export const GET: APIRoute = async () => {
   const goal = Number(process.env.PUBLIC_GOAL_MONTHLY || 150);
+  
+  // Verificar se as variáveis necessárias estão configuradas
+  if (!process.env.GOOGLE_SHEETS_ID || !process.env.GOOGLE_SERVICE_EMAIL || !process.env.GOOGLE_SERVICE_KEY) {
+    console.log('[progresso] Google Sheets não configurado, retornando dados padrão');
+    return new Response(JSON.stringify({ 
+      totalMonthly: 0, 
+      goal, 
+      supporters: 0, 
+      updatedAt: new Date().toISOString(),
+      stale: true 
+    }), {
+      headers: { 
+        'content-type': 'application/json',
+        'cache-control': 's-maxage=60, stale-while-revalidate=300'
+      }
+    });
+  }
+
   try {
     const sheets = getSheetsReadonly();
-    const r = await sheets.spreadsheets.values.get({ spreadsheetId: SHEET_ID, range: TAB_ARRECAD });
+    const r = await sheets.spreadsheets.values.get({ 
+      spreadsheetId: SHEET_ID, 
+      range: TAB_ARRECAD 
+    });
     const rows = r.data.values || [];
     const data = rows.slice(1); // pula cabeçalho
 
@@ -30,7 +51,8 @@ export const GET: APIRoute = async () => {
       totalMonthly: Math.max(0, Math.round(total * 100) / 100),
       goal,
       supporters: supporters.size,
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
+      stale: false
     };
 
     return new Response(JSON.stringify(payload), {
@@ -40,8 +62,16 @@ export const GET: APIRoute = async () => {
       }
     });
   } catch (e) {
-    return new Response(JSON.stringify({ totalMonthly: 0, goal, supporters: 0, stale: true }), {
-      headers: { 'content-type': 'application/json' }, status: 200
+    console.error('[progresso] Erro ao buscar dados:', e);
+    return new Response(JSON.stringify({ 
+      totalMonthly: 0, 
+      goal, 
+      supporters: 0, 
+      updatedAt: new Date().toISOString(),
+      stale: true 
+    }), {
+      headers: { 'content-type': 'application/json' }, 
+      status: 200
     });
   }
 };

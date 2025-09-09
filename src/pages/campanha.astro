@@ -3,11 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProgressBar from '../components/ProgressBar.astro';
 import CtaButtons from '../components/CtaButtons.astro';
 
-let progress = { totalMonthly: 0, goal: Number(import.meta.env.PUBLIC_GOAL_MONTHLY || 150), supporters: 0, stale: true };
-try { 
-  const r = await fetch(`${import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321'}/api/progresso`); 
-  progress = await r.json(); 
-} catch {}
+// Dados padrão durante build - serão atualizados no cliente
+const progress = { 
+  totalMonthly: 0, 
+  goal: Number(import.meta.env.PUBLIC_GOAL_MONTHLY || 150), 
+  supporters: 0, 
+  stale: true 
+};
 ---
 
 <BaseLayout title="Campanha • Mercado Biorregional Lumiar">
@@ -186,20 +188,47 @@ try {
   </section>
 
   <script>
-    // Dispatch view_progress event when page loads
-    document.addEventListener('DOMContentLoaded', () => {
-      const progressData = {
-        total: Number(document.querySelector('[data-total]')?.getAttribute('data-total') || 0),
-        goal: Number(document.querySelector('[data-goal]')?.getAttribute('data-goal') || 150),
-        supporters: Number(document.querySelector('[data-supporters]')?.getAttribute('data-supporters') || 0)
-      };
-      
-      window.dispatchEvent(new CustomEvent('track', {
-        detail: {
-          event: 'view_progress',
-          ...progressData
+    // Atualizar dados de progresso no cliente
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch('/api/progresso');
+        const data = await response.json();
+        
+        // Atualizar barra de progresso
+        const progressSection = document.querySelector('[data-total]');
+        if (progressSection) {
+          progressSection.setAttribute('data-total', data.totalMonthly);
+          progressSection.setAttribute('data-goal', data.goal);
+          progressSection.setAttribute('data-supporters', data.supporters);
+          
+          // Atualizar percentual
+          const pct = Math.min(100, Math.round((data.totalMonthly / data.goal) * 100));
+          const percentElement = progressSection.querySelector('span');
+          if (percentElement) percentElement.textContent = pct + '%';
+          
+          // Atualizar barra visual
+          const barElement = progressSection.querySelector('div > div');
+          if (barElement) barElement.style.width = pct + '%';
+          
+          // Atualizar texto
+          const textElement = progressSection.querySelector('p');
+          if (textElement) {
+            textElement.innerHTML = `<strong>R$ ${data.totalMonthly.toFixed(2)}</strong> de R$ ${data.goal}/mês • ${data.supporters} assinantes`;
+          }
         }
-      }));
+        
+        // Dispatch view_progress event
+        window.dispatchEvent(new CustomEvent('track', {
+          detail: {
+            event: 'view_progress',
+            total: data.totalMonthly,
+            goal: data.goal,
+            supporters: data.supporters
+          }
+        }));
+      } catch (error) {
+        console.log('Erro ao carregar progresso:', error);
+      }
     });
   </script>
 </BaseLayout>

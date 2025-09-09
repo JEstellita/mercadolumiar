@@ -3,8 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProgressBar from '../components/ProgressBar.astro';
 import CtaButtons from '../components/CtaButtons.astro';
 
-let progress = { totalMonthly: 0, goal: Number(import.meta.env.PUBLIC_GOAL_MONTHLY || 150), supporters: 0, stale: true };
-try { const r = await fetch('/api/progresso'); progress = await r.json(); } catch {}
+// Dados padrão durante build - serão atualizados no cliente
+const progress = { 
+  totalMonthly: 0, 
+  goal: Number(import.meta.env.PUBLIC_GOAL_MONTHLY || 150), 
+  supporters: 0, 
+  stale: true 
+};
 ---
 
 <BaseLayout title="Compre local, construa futuro.">
@@ -24,4 +29,39 @@ try { const r = await fetch('/api/progresso'); progress = await r.json(); } catc
       <li>Acima disso: investimos em divulgação e publicação de novas bancas.</li>
     </ul>
   </section>
+
+  <script>
+    // Atualizar dados de progresso no cliente
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch('/api/progresso');
+        const data = await response.json();
+        
+        // Atualizar barra de progresso
+        const progressSection = document.querySelector('[data-total]');
+        if (progressSection) {
+          progressSection.setAttribute('data-total', data.totalMonthly);
+          progressSection.setAttribute('data-goal', data.goal);
+          progressSection.setAttribute('data-supporters', data.supporters);
+          
+          // Atualizar percentual
+          const pct = Math.min(100, Math.round((data.totalMonthly / data.goal) * 100));
+          const percentElement = progressSection.querySelector('span');
+          if (percentElement) percentElement.textContent = pct + '%';
+          
+          // Atualizar barra visual
+          const barElement = progressSection.querySelector('div > div');
+          if (barElement) barElement.style.width = pct + '%';
+          
+          // Atualizar texto
+          const textElement = progressSection.querySelector('p');
+          if (textElement) {
+            textElement.innerHTML = `<strong>R$ ${data.totalMonthly.toFixed(2)}</strong> de R$ ${data.goal}/mês • ${data.supporters} assinantes`;
+          }
+        }
+      } catch (error) {
+        console.log('Erro ao carregar progresso:', error);
+      }
+    });
+  </script>
 </BaseLayout>
