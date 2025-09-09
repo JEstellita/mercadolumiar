@@ -25,6 +25,11 @@ async function fetchPreapproval(preapprovalId) {
   return r.json();
 }
 const POST = async ({ request }) => {
+  if (new URL(request.url).pathname.endsWith("/mp-webhook") && request.method !== "POST") {
+    return new Response("method not allowed", { status: 405 });
+  }
+  const len = Number(request.headers.get("content-length") || "0");
+  if (len > 2e5) return new Response("payload too large", { status: 413 });
   const raw = await request.text();
   let body;
   try {
@@ -49,7 +54,8 @@ const POST = async ({ request }) => {
     hasSig: !!sigHeader,
     isPreapproval,
     isPayment,
-    reqId: reqId.substring(0, 8) + "..."
+    reqId: reqId.substring(0, 8) + "...",
+    payloadSize: len
   });
   let amount = body?.auto_recurring?.transaction_amount ?? body?.transaction_amount ?? null;
   let status = (body?.status ?? body?.action ?? "").toString().toLowerCase() || null;
@@ -102,6 +108,7 @@ const POST = async ({ request }) => {
       ]]
     }
   });
+  console.log("[mp-webhook] append ok", { targetRange, amount, status });
   return new Response("ok", { status: 200 });
 };
 

@@ -1,45 +1,10 @@
-import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_DyFe-0yu.mjs';
+import { f as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_dDJr31h3.mjs';
 import 'kleur/colors';
-import { $ as $$Layout } from '../chunks/Layout_B83BzxVs.mjs';
-/* empty css                                 */
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_jA3CkfZ-.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Produtores = createComponent(($$result, $$props, $$slots) => {
-  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, {}, { "default": ($$result2) => renderTemplate`  ${maybeRenderHead()}<section class="py-16 px-4 text-center"> <div class="max-w-4xl mx-auto"> <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
-Seja um Produtor
-</h1> <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-Conecte-se diretamente com consumidores conscientes e venda seus produtos locais através da nossa plataforma.
-</p> </div> </section>  <section class="py-16 px-4"> <div class="max-w-4xl mx-auto"> <h2 class="text-3xl font-bold text-white mb-8 text-center">
-Por que participar?
-</h2> <div class="grid md:grid-cols-2 gap-8"> <div class="space-y-6"> <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border"> <h3 class="text-xl font-semibold text-emerald-400 mb-3">💰 Venda direta</h3> <p class="text-gray-300">Elimine intermediários e venda diretamente para consumidores, aumentando sua margem de lucro.</p> </div> <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border"> <h3 class="text-xl font-semibold text-emerald-400 mb-3">🌱 Consumidores conscientes</h3> <p class="text-gray-300">Conecte-se com pessoas que valorizam produtos locais, frescos e sustentáveis.</p> </div> <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border"> <h3 class="text-xl font-semibold text-emerald-400 mb-3">📱 Plataforma simples</h3> <p class="text-gray-300">Interface fácil de usar para gerenciar seus produtos e pedidos.</p> </div> </div> <div class="space-y-6"> <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border"> <h3 class="text-xl font-semibold text-emerald-400 mb-3">🤝 Comunidade local</h3> <p class="text-gray-300">Faça parte de uma rede de produtores locais que se apoiam mutuamente.</p> </div> <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border"> <h3 class="text-xl font-semibold text-emerald-400 mb-3">📈 Crescimento sustentável</h3> <p class="text-gray-300">Desenvolva seu negócio de forma sustentável, respeitando o meio ambiente.</p> </div> <div class="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border"> <h3 class="text-xl font-semibold text-emerald-400 mb-3">🎯 Sem taxas ocultas</h3> <p class="text-gray-300">Transparência total nos custos e comissões da plataforma.</p> </div> </div> </div> </div> </section>  <section class="py-16 px-4 bg-gradient-to-r from-emerald-900/20 to-emerald-800/20"> <div class="max-w-4xl mx-auto"> <h2 class="text-3xl font-bold text-white mb-8 text-center">
-Como funciona?
-</h2> <div class="grid md:grid-cols-3 gap-8"> <div class="text-center"> <div class="text-6xl mb-4">📝</div> <h3 class="text-xl font-semibold text-white mb-3">1. Cadastro</h3> <p class="text-gray-300">Entre em contato conosco para cadastrar sua produção e produtos.</p> </div> <div class="text-center"> <div class="text-6xl mb-4">📸</div> <h3 class="text-xl font-semibold text-white mb-3">2. Catálogo</h3> <p class="text-gray-300">Criamos fotos e descrições dos seus produtos na plataforma.</p> </div> <div class="text-center"> <div class="text-6xl mb-4">🛒</div> <h3 class="text-xl font-semibold text-white mb-3">3. Vendas</h3> <p class="text-gray-300">Consumidores fazem pedidos e você recebe diretamente.</p> </div> </div> </div> </section>  <section class="py-16 px-4"> <div class="max-w-4xl mx-auto"> <h2 class="text-3xl font-bold text-white mb-8 text-center">
-Requisitos para participar
-</h2> <div class="grid md:grid-cols-2 gap-8"> <div class="space-y-4"> <h3 class="text-xl font-semibold text-emerald-400 mb-4">✅ O que precisamos:</h3> <ul class="space-y-3 text-gray-300"> <li class="flex items-start"> <span class="text-emerald-400 mr-2">•</span>
-Produção local em Lumiar ou região próxima
-</li> <li class="flex items-start"> <span class="text-emerald-400 mr-2">•</span>
-Produtos frescos e de qualidade
-</li> <li class="flex items-start"> <span class="text-emerald-400 mr-2">•</span>
-Compromisso com práticas sustentáveis
-</li> <li class="flex items-start"> <span class="text-emerald-400 mr-2">•</span>
-Disponibilidade para entrega local
-</li> </ul> </div> <div class="space-y-4"> <h3 class="text-xl font-semibold text-emerald-400 mb-4">📋 Tipos de produtos:</h3> <ul class="space-y-3 text-gray-300"> <li class="flex items-start"> <span class="text-emerald-400 mr-2">•</span>
-Hortaliças e verduras
-</li> <li class="flex items-start"> <span class="text-emerald-400 mr-2">•</span>
-Frutas da estação
-</li> <li class="flex items-start"> <span class="text-emerald-400 mr-2">•</span>
-Produtos artesanais
-</li> <li class="flex items-start"> <span class="text-emerald-400 mr-2">•</span>
-Derivados agrícolas
-</li> </ul> </div> </div> </div> </section>  <section class="py-16 px-4 text-center"> <div class="max-w-4xl mx-auto"> <h2 class="text-3xl font-bold text-white mb-6">
-Interessado em participar?
-</h2> <p class="text-xl text-gray-300 mb-8">
-Entre em contato conosco pelo WhatsApp para saber mais sobre como cadastrar seus produtos.
-</p> <div class="flex gap-4 justify-center flex-wrap"> <a href="/whatsapp" class="px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-semibold text-lg hover:from-emerald-700 hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-emerald-500/25 hover:scale-105">
-💬 Falar no WhatsApp
-</a> <a href="/apoie" class="px-8 py-4 rounded-xl border-2 border-emerald-500 text-emerald-400 font-semibold text-lg hover:bg-emerald-500 hover:text-white transition-all duration-200 hover:scale-105">
-🌱 Apoiar o projeto
-</a> </div> </div> </section> ` })}`;
+  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": "Produtores \u2022 Cadastro" }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<h1>Produtores</h1> <p>Quer cadastrar sua banca? Fale com a gente no WhatsApp — combinamos fotos, descrição e logística.</p> <p><a class="btn" href="/whatsapp" style="background:var(--accent); color:#0b0b0b; padding:.8rem 1rem; border-radius:.8rem; font-weight:700;">Quero participar</a></p> ` })}`;
 }, "D:/mercadolumiar/src/pages/produtores.astro", void 0);
 
 const $$file = "D:/mercadolumiar/src/pages/produtores.astro";

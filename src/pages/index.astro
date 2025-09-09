@@ -1,24 +1,27 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import ProgressBar from '../components/ProgressBar.astro';
 import CtaButtons from '../components/CtaButtons.astro';
 
-let progress = { totalMonthly: 0, goal: Number(import.meta.env.PUBLIC_GOAL_MONTHLY || 150), supporters: 0 };
+let progress = { totalMonthly: 0, goal: Number(import.meta.env.PUBLIC_GOAL_MONTHLY || 150), supporters: 0, stale: true };
 try { const r = await fetch('/api/progresso'); progress = await r.json(); } catch {}
 ---
 
-<section class="py-16">
-  <h1>Compre local, construa futuro.</h1>
-  <p>Um site para comprar <strong>direto de quem produz</strong> em Lumiar e Biorregião.</p>
-  <CtaButtons />
-</section>
+<BaseLayout title="Compre local, construa futuro.">
+  <section style="padding:2rem 0 1rem;">
+    <h1 style="font-size:2rem; line-height:1.2; margin:0 0 .5rem;">Compre local, construa futuro.</h1>
+    <p style="opacity:.9; max-width:60ch">Um site para comprar <strong>direto de quem produz</strong> em Lumiar e Biorregião.</p>
+    <CtaButtons />
+  </section>
 
-<ProgressBar total={progress.totalMonthly} goal={progress.goal} supporters={progress.supporters} />
+  <ProgressBar total={progress.totalMonthly} goal={progress.goal} supporters={progress.supporters} stale={progress.stale} />
 
-<section class="mt-12">
-  <h2>Como funciona</h2>
-  <ul class="list-disc pl-6 space-y-2">
-    <li>Contribuição livre — qualquer valor mensal ajuda.</li>
-    <li>Meta base: R$150/mês para cobrir plataforma e domínio.</li>
-    <li>Acima disso: investimos em divulgação e publicação de novas bancas.</li>
-  </ul>
-</section>
+  <section style="margin-top:2rem;">
+    <h2>Como funciona</h2>
+    <ul style="margin:.5rem 0 0 1rem;">
+      <li>Contribuição livre — qualquer valor mensal ajuda.</li>
+      <li>Meta base: R$150/mês para cobrir plataforma e domínio.</li>
+      <li>Acima disso: investimos em divulgação e publicação de novas bancas.</li>
+    </ul>
+  </section>
+</BaseLayout>
