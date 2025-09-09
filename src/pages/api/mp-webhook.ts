@@ -1,38 +1,31 @@
 import type { APIRoute } from 'astro';
 import crypto from 'node:crypto';
-import { google } from 'googleapis';
 import { fetch } from 'undici';
+import { getSheetsRW, SHEET_ID, TAB_ARRECAD, TAB_PAYMENTS } from '../../lib/google/sheets';
 
 export const runtime = 'node';
 export const prerender = false;
 
-function getSheets() {
-  const auth = new google.auth.JWT(
-    process.env.GOOGLE_SERVICE_EMAIL,
-    undefined,
-    (process.env.GOOGLE_SERVICE_KEY || '').replace(/\\n/g, '\n'),
-    ['https://www.googleapis.com/auth/spreadsheets']
-  );
-  return google.sheets({ version: 'v4', auth });
+function parseSig(sig: string | null) {
+  if (!sig) return null;
+  const map = Object.fromEntries(sig.split(',').map(p => p.trim().split('=')));
+  return { ts: map.ts, v1: map.v1 };
 }
 
-function verifySignature({ body, headers }: { body: any; headers: Headers }) {
-  const sig = headers.get('x-signature') || '';             // "ts=...,v1=..."
-  const reqId = headers.get('x-request-id') || '';
-  const secret = process.env.MP_WEBHOOK_SECRET || '';
-  const map = Object.fromEntries(sig.split(',').map(p => p.trim().split('=')));
-  const ts = map.ts, v1 = map.v1;
-  const id = body?.data?.id || body?.id || '';
-  const manifest = `id:${id};request-id:${reqId};ts:${ts}`;
-  const calc = crypto.createHmac('sha256', secret).update(manifest).digest('hex');
-  return { ok: (calc === v1), reqId, dataId: id };
+function detectTopic(headers: Headers, body: any) {
+  const h = (k: string) => headers.get(k) || '';
+  const topic = (h('x-topic') || h('x-event-type') || h('x-type') || body?.type || body?.entity || '').toString().toLowerCase();
+  // MP costuma usar "preapproval" para assinaturas
+  const isPreapproval = topic.includes('preapproval') || topic.includes('subscription') || topic.includes('planos');
+  const isPayment = topic.includes('payment') || topic.includes('pagamento');
+  return { isPreapproval, isPayment, topic };
 }
 
 async function fetchPreapproval(preapprovalId: string) {
   const r = await fetch(`https://api.mercadopago.com/preapproval/${preapprovalId}`, {
     headers: { Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}` }
   });
-  if (!r.ok) throw new Error('mp preapproval fetch failed');
+  if (!r.ok) throw new Error('preapproval fetch failed');
   return r.json() as any;
 }
 
@@ -41,50 +34,81 @@ export const POST: APIRoute = async ({ request }) => {
   let body: any;
   try { body = JSON.parse(raw); } catch { return new Response('bad json', { status: 400 }); }
 
-  const { ok, reqId, dataId } = verifySignature({ body, headers: request.headers });
-  if (!ok) return new Response('invalid signature', { status: 401 });
+  // BYPASS opcional para simulações sem assinatura (use somente em testes)
+  const allowTest = process.env.MP_WEBHOOK_ALLOW_TEST === 'true';
+  const sigHeader = request.headers.get('x-signature');
+  const reqId = request.headers.get('x-request-id') || '';
+  const parsed = parseSig(sigHeader);
 
-  // Tenta dados diretos; se faltar, busca preapproval
-  let amount = body?.auto_recurring?.transaction_amount ?? body?.transaction_amount ?? null;
-  let status = body?.status ?? body?.action ?? null;
-  let payer_email = body?.payer?.email ?? body?.payer_email ?? null;
-  let payer_name = body?.payer?.name ?? body?.payer_name ?? null;
-  let preapproval_id = body?.preapproval_id ?? body?.data?.id ?? body?.id ?? null;
+  if (!parsed && !allowTest) return new Response('missing signature', { status: 401 });
 
-  if (!amount || !status) {
-    if (!preapproval_id) preapproval_id = dataId;
-    try {
-      const pre = await fetchPreapproval(preapproval_id);
-      amount = pre?.auto_recurring?.transaction_amount ?? amount ?? 0;
-      status = pre?.status ?? status ?? 'unknown';
-      payer_email = pre?.payer_email ?? payer_email ?? '';
-      payer_name = payer_email ? payer_email.split('@')[0] : (payer_name ?? '');
-    } catch { /* continua com o que tiver */ }
+  if (parsed && process.env.MP_WEBHOOK_SECRET) {
+    const id = body?.data?.id || body?.id || '';
+    const manifest = `id:${id};request-id:${reqId};ts:${parsed.ts}`;
+    const calc = crypto.createHmac('sha256', process.env.MP_WEBHOOK_SECRET).update(manifest).digest('hex');
+    if (calc !== parsed.v1 && !allowTest) return new Response('invalid signature', { status: 401 });
   }
 
-  // Idempotência básica: não regravar mesmo request-id
-  const sheets = getSheets();
-  const sheetId = process.env.GOOGLE_SHEETS_ID!;
-  const range = 'Arrecadacao!A:H';
+  const { isPreapproval, isPayment } = detectTopic(request.headers, body);
 
-  // (opcional) consultar últimos 50 para checar request_id
+  // Log não sensível para observabilidade
+  console.log('[mp-webhook]', { 
+    topic: detectTopic(request.headers, body).topic, 
+    hasSig: !!sigHeader, 
+    isPreapproval, 
+    isPayment,
+    reqId: reqId.substring(0, 8) + '...'
+  });
+
+  // Normalização de campos
+  let amount = body?.auto_recurring?.transaction_amount ?? body?.transaction_amount ?? null;
+  let status = (body?.status ?? body?.action ?? '').toString().toLowerCase() || null;
+  let payer_email = body?.payer?.email ?? body?.payer_email ?? '';
+  let payer_name = body?.payer?.name ?? body?.payer_name ?? '';
+  let preapproval_id = body?.preapproval_id ?? body?.data?.id ?? body?.id ?? '';
+
+  // Enriquecimento quando necessário (assinatura)
+  if (isPreapproval && (!amount || !status)) {
+    try {
+      if (!preapproval_id) preapproval_id = body?.data?.id || '';
+      const pre = await fetchPreapproval(preapproval_id);
+      amount = pre?.auto_recurring?.transaction_amount ?? amount ?? 0;
+      status = (pre?.status || status || 'unknown').toString().toLowerCase();
+      payer_email = pre?.payer_email ?? payer_email ?? '';
+      payer_name = payer_email ? payer_email.split('@')[0] : (payer_name || '');
+    } catch {/* segue com o que tiver */}
+  }
+
+  const sheets = getSheetsRW();
+
+  // Idempotência básica: evita repetir mesmo request-id nos últimos ~50 registros
   try {
-    const read = await sheets.spreadsheets.values.get({
-      spreadsheetId: sheetId, range
-    });
+    const read = await sheets.spreadsheets.values.get({ spreadsheetId: SHEET_ID, range: TAB_ARRECAD });
     const rows = read.data.values || [];
-    const seen = rows.slice(-50).some(r => (r[7] === reqId));
-    if (seen) return new Response('ok-dup', { status: 200 });
-  } catch { /* ignore */ }
+    const dup = rows.slice(-50).some(r => (r[7] === reqId));
+    if (dup) return new Response('ok-dup', { status: 200 });
+  } catch {/* ignore */}
 
   const now = new Date().toISOString();
+
+  // Escolha da aba: Arrecadacao (assinaturas) / Payments (pagamentos)
+  const targetRange = isPreapproval ? TAB_ARRECAD : (isPayment ? TAB_PAYMENTS : TAB_ARRECAD);
+
   await sheets.spreadsheets.values.append({
-    spreadsheetId: sheetId,
-    range,
+    spreadsheetId: SHEET_ID,
+    range: targetRange,
     valueInputOption: 'USER_ENTERED',
     requestBody: {
-      values: [[ now, 'mercado_pago', amount || 0, status || 'unknown',
-                 payer_name || '', payer_email || '', preapproval_id || '', reqId || '' ]]
+      values: [[
+        now,                           // A timestamp
+        isPreapproval ? 'preapproval' : (isPayment ? 'payment' : 'other'), // B source
+        amount || 0,                   // C amount
+        status || 'unknown',           // D status
+        payer_name || '',              // E payer_name
+        payer_email || '',             // F payer_email
+        preapproval_id || '',          // G preapproval_id
+        reqId || ''                    // H request_id
+      ]]
     }
   });
 

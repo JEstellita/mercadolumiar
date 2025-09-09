@@ -1,11 +1,7 @@
-// @ts-check
-import { defineConfig } from "astro/config";
-import vercel from "@astrojs/vercel";
+import { defineConfig } from 'astro/config';
+import vercel from '@astrojs/vercel/serverless';
 
-// https://astro.build/config
 export default defineConfig({
-  output: "server",
-  adapter: vercel({
-    webAnalytics: { enabled: false }
-  }),
+  output: 'server',
+  adapter: vercel({ runtime: 'nodejs20.x' }),
 });
