@@ -188,46 +188,45 @@ const progress = {
   </section>
 
   <script>
-    // Atualizar dados de progresso no cliente
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const response = await fetch('/api/progresso');
-        const data = await response.json();
+    // Simular dados de progresso (pode ser conectado a uma API externa depois)
+    document.addEventListener('DOMContentLoaded', () => {
+      const progressSection = document.querySelector('[data-total]');
+      if (progressSection) {
+        // Dados simulados - substitua por chamada a API externa se necessário
+        const mockData = {
+          totalMonthly: 75.50,
+          goal: 150,
+          supporters: 3
+        };
         
-        // Atualizar barra de progresso
-        const progressSection = document.querySelector('[data-total]');
-        if (progressSection) {
-          progressSection.setAttribute('data-total', data.totalMonthly);
-          progressSection.setAttribute('data-goal', data.goal);
-          progressSection.setAttribute('data-supporters', data.supporters);
-          
-          // Atualizar percentual
-          const pct = Math.min(100, Math.round((data.totalMonthly / data.goal) * 100));
-          const percentElement = progressSection.querySelector('span');
-          if (percentElement) percentElement.textContent = pct + '%';
-          
-          // Atualizar barra visual
-          const barElement = progressSection.querySelector('div > div');
-          if (barElement) barElement.style.width = pct + '%';
-          
-          // Atualizar texto
-          const textElement = progressSection.querySelector('p');
-          if (textElement) {
-            textElement.innerHTML = `<strong>R$ ${data.totalMonthly.toFixed(2)}</strong> de R$ ${data.goal}/mês • ${data.supporters} assinantes`;
-          }
+        progressSection.setAttribute('data-total', mockData.totalMonthly.toString());
+        progressSection.setAttribute('data-goal', mockData.goal.toString());
+        progressSection.setAttribute('data-supporters', mockData.supporters.toString());
+        
+        // Atualizar percentual
+        const pct = Math.min(100, Math.round((mockData.totalMonthly / mockData.goal) * 100));
+        const percentElement = progressSection.querySelector('span');
+        if (percentElement) percentElement.textContent = pct + '%';
+        
+        // Atualizar barra visual
+        const barElement = progressSection.querySelector('div > div') as HTMLElement;
+        if (barElement) barElement.style.width = pct + '%';
+        
+        // Atualizar texto
+        const textElement = progressSection.querySelector('p');
+        if (textElement) {
+          textElement.innerHTML = `<strong>R$ ${mockData.totalMonthly.toFixed(2)}</strong> de R$ ${mockData.goal}/mês • ${mockData.supporters} assinantes`;
         }
         
         // Dispatch view_progress event
         window.dispatchEvent(new CustomEvent('track', {
           detail: {
             event: 'view_progress',
-            total: data.totalMonthly,
-            goal: data.goal,
-            supporters: data.supporters
+            total: mockData.totalMonthly,
+            goal: mockData.goal,
+            supporters: mockData.supporters
           }
         }));
-      } catch (error) {
-        console.log('Erro ao carregar progresso:', error);
       }
     });
   </script>
