@@ -8,23 +8,26 @@ O Mercado Biorregional Lumiar é uma iniciativa para criar uma plataforma digita
 
 ### Objetivos
 - **Comunicar**: Contribuição mensal de qualquer valor para manter a plataforma
-- **Converter**: Botões claros para WhatsApp e Assinatura (Mercado Pago)
+- **Converter**: Botões claros para WhatsApp e Assinatura (Mercado Pago)  
 - **Transparência**: Barra de progresso em tempo real mostrando arrecadação e número de apoiadores
 - **Autonomia**: Backend mínimo no próprio projeto (webhook + leitura do Sheets)
 
 ## 🚀 Funcionalidades
 
 - **Página inicial** com explicação da campanha e barra de progresso
+- **Página de campanha** (`/campanha`) completa com hero, progresso e CTAs
 - **API de progresso** (`/api/progresso`) que lê dados do Google Sheets
 - **Webhook do Mercado Pago** (`/api/mp-webhook`) para receber eventos de assinatura
 - **Redirecionamentos** para WhatsApp (`/whatsapp`) e Mercado Pago (`/assinar`)
 - **Páginas informativas**: `/apoie`, `/produtores`, `/sobre`
 - **Design responsivo** com tema verde/terra
+- **SEO otimizado** com sitemap, robots.txt e meta tags
+- **Acessibilidade** com aria-labels e contraste adequado
 
 ## 🛠️ Tecnologias
 
-- **Astro** - Framework web moderno
-- **TailwindCSS** - Estilização
+- **Astro 5** - Framework web moderno
+- **TailwindCSS 4** - Estilização
 - **Google Sheets API** - Armazenamento de dados
 - **Mercado Pago API** - Processamento de pagamentos
 - **Vercel** - Deploy e hospedagem
@@ -38,6 +41,7 @@ Copie o arquivo `.env.example` para `.env` e configure as variáveis:
 ```bash
 # Site Configuration
 PUBLIC_SITE_NAME="Mercado Biorregional Lumiar"
+PUBLIC_SITE_URL="https://mercadobiorregional.vercel.app"
 PUBLIC_GOAL_MONTHLY="150"
 
 # Links de redirecionamento
@@ -138,6 +142,60 @@ Retorna dados de progresso da campanha:
 
 ### `/api/mp-webhook` (POST)
 Recebe eventos do Mercado Pago e grava no Google Sheets.
+
+## 🧪 Smoke Test
+
+Script simples para testar os endpoints principais:
+
+```bash
+# Definir base URL (local ou produção)
+BASE_URL="http://localhost:4321"  # ou "https://mercadobiorregional.vercel.app"
+
+# Test health endpoint
+echo "=== Testing /api/health ==="
+curl -s "$BASE_URL/api/health" | echo "Status: $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/api/health")"
+
+# Test progress endpoint  
+echo "=== Testing /api/progresso ==="
+curl -s "$BASE_URL/api/progresso" | echo "Status: $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/api/progresso")"
+
+# Test redirects
+echo "=== Testing redirects ==="
+echo "/assinar redirect: $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/assinar")"
+echo "/whatsapp redirect: $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/whatsapp")"
+
+# Test main pages
+echo "=== Testing main pages ==="
+echo "/ (home): $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/")"
+echo "/campanha: $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/campanha")"
+echo "/apoie: $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/apoie")"
+echo "/produtores: $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/produtores")"
+echo "/sobre: $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/sobre")"
+
+# Test SEO files
+echo "=== Testing SEO ==="
+echo "robots.txt: $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/robots.txt")"
+echo "sitemap: $(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL/sitemap-index.xml")"
+
+echo "=== Smoke test completed ==="
+```
+
+### Lighthouse Score
+
+Para verificar performance, acessibilidade e SEO:
+
+```bash
+# Instalar lighthouse (se não tiver)
+npm install -g lighthouse
+
+# Executar audit (substituir URL)
+lighthouse https://mercadobiorregional.vercel.app --output=json --output-path=./lighthouse-report.json
+
+# Ver scores
+cat lighthouse-report.json | jq '.categories | to_entries[] | "\(.key): \(.value.score * 100)"'
+```
+
+**Meta: Lighthouse >= 90 em todas as categorias**
 
 ## 🎨 Design
 

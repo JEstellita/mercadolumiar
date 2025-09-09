@@ -1,4 +1,20 @@
 <div style="margin-top:1rem; display:flex; gap:.75rem; flex-wrap:wrap">
-  <a href="/assinar" class="btn" style="background:var(--accent); color:#0b0b0b; padding:.8rem 1rem; border-radius:.8rem; font-weight:700;">Apoiar mensalmente</a>
-  <a href="/whatsapp" class="btn" style="border:1px solid #2a2a2a; padding:.8rem 1rem; border-radius:.8rem;">Falar no WhatsApp</a>
+  <a 
+    href="/assinar" 
+    class="btn" 
+    style="background:var(--accent); color:#0b0b0b; padding:.8rem 1rem; border-radius:.8rem; font-weight:700;"
+    aria-label="Apoiar mensalmente o Mercado Biorregional Lumiar"
+    onclick="window.dispatchEvent(new CustomEvent('track', {detail:{event:'click_cta', target:'assinar'}}))"
+  >
+    Apoiar mensalmente
+  </a>
+  <a 
+    href="/whatsapp" 
+    class="btn" 
+    style="border:1px solid #2a2a2a; padding:.8rem 1rem; border-radius:.8rem;"
+    aria-label="Entrar em contato via WhatsApp"
+    onclick="window.dispatchEvent(new CustomEvent('track', {detail:{event:'click_cta', target:'whatsapp'}}))"
+  >
+    Falar no WhatsApp
+  </a>
 </div>

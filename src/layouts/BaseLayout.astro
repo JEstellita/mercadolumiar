@@ -1,7 +1,8 @@
 ---
-const { title = import.meta.env.PUBLIC_SITE_NAME || 'Mercado Biorregional Lumiar', description = 'Compre local, construa futuro. Um site para comprar direto de quem produz em Lumiar e Biorregião.' } = Astro.props;
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://mercadobiorregional.vercel.app';
+const { title = 'Mercado Biorregional Lumiar', description = 'Compre local, construa futuro. Um site para comprar direto de quem produz em Lumiar e Biorregião.' } = Astro.props;
+const siteUrl = Astro.site || 'https://mercadobiorregional.vercel.app';
 const og = `${siteUrl}/og.png`;
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 ---
 <html lang="pt-BR">
   <head>
@@ -9,16 +10,32 @@ const og = `${siteUrl}/og.png`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={og} />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mercado Biorregional Lumiar" />
+    
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" href="/favicon.ico" />
-    <!-- Plausible (opcional) -->
-    {import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN && (
-      <script is:inline defer data-domain={import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN} src="https://plausible.io/js/script.js"></script>
-    )}
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" />
+    
+    <!-- Plausible Analytics (descomente se PUBLIC_PLAUSIBLE_DOMAIN estiver configurado) -->
+    <!-- 
+    <script is:inline defer data-domain="SEU_DOMINIO" src="https://plausible.io/js/script.js"></script>
+    -->
+    
     <style>
       :root { --accent: #10b981; --muted: #313131; }
       body { font-family: system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; color:#e7e7e7; background:#0b0b0b; }
@@ -29,19 +46,31 @@ const og = `${siteUrl}/og.png`;
   </head>
   <body>
     <header class="container" style="padding:1rem 0; border-bottom:1px solid #1f1f1f; display:flex; gap:1rem; align-items:center; justify-content:space-between">
-      <a href="/" style="font-weight:700;">{import.meta.env.PUBLIC_SITE_NAME || 'Lumiar'}</a>
-      <nav style="display:flex; gap:1rem;">
+      <a href="/" style="font-weight:700;" aria-label="Voltar à página inicial">Lumiar</a>
+      <nav style="display:flex; gap:1rem;" role="navigation" aria-label="Navegação principal">
+        <a href="/campanha">Campanha</a>
         <a href="/apoie">Apoie</a>
         <a href="/produtores">Produtores</a>
         <a href="/sobre">Sobre</a>
       </nav>
     </header>
-    <main class="container" style="padding:2rem 0;">
+    <main class="container" style="padding:2rem 0;" role="main">
       <slot />
     </main>
-    <footer class="container" style="padding:2rem 0; border-top:1px solid #1f1f1f; margin-top:3rem; font-size:.95rem;">
-      <div>© {new Date().getFullYear()} {import.meta.env.PUBLIC_SITE_NAME || 'Lumiar'}. Comunidade de Lumiar e Biorregião.</div>
-      <div style="opacity:.7">Meta base: R$ {import.meta.env.PUBLIC_GOAL_MONTHLY || 150}/mês. Acima disso: divulgação.</div>
+    <footer class="container" style="padding:2rem 0; border-top:1px solid #1f1f1f; margin-top:3rem; font-size:.95rem;" role="contentinfo">
+      <div>© {new Date().getFullYear()} Mercado Biorregional Lumiar. Comunidade de Lumiar e Biorregião.</div>
+      <div style="opacity:.7">Meta base: R$ 150/mês. Acima disso: divulgação.</div>
     </footer>
+    
+    <!-- Analytics Event Handler (descomente se Plausible estiver ativo) -->
+    <!-- 
+    <script is:inline>
+      document.addEventListener('track', function(e) {
+        if (window.plausible) {
+          window.plausible(e.detail.event, { props: e.detail });
+        }
+      });
+    </script>
+    -->
   </body>
 </html>

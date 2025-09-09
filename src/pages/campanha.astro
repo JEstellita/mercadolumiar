@@ -1,0 +1,205 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProgressBar from '../components/ProgressBar.astro';
+import CtaButtons from '../components/CtaButtons.astro';
+
+let progress = { totalMonthly: 0, goal: Number(import.meta.env.PUBLIC_GOAL_MONTHLY || 150), supporters: 0, stale: true };
+try { 
+  const r = await fetch(`${import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321'}/api/progresso`); 
+  progress = await r.json(); 
+} catch {}
+---
+
+<BaseLayout title="Campanha • Mercado Biorregional Lumiar">
+  <!-- Hero Section -->
+  <section class="flex flex-col items-center text-center py-8 md:py-12">
+    <img src="/logo-lumiar.png" alt="Logo Mercado Biorregional Lumiar" class="w-24 h-24 mb-6" />
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">
+      Mercado Biorregional Lumiar
+    </h1>
+    <p class="text-lg md:text-xl text-gray-300 mb-6 max-w-2xl">
+      Um site para comprar <strong>direto de quem produz</strong> em Lumiar e Biorregião.
+    </p>
+    <CtaButtons />
+  </section>
+
+  <!-- Progress Bar -->
+  <div class="mb-8">
+    <ProgressBar total={progress.totalMonthly} goal={progress.goal} supporters={progress.supporters} stale={progress.stale} />
+  </div>
+
+  <!-- Sobre a Campanha -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-4">Sobre a campanha</h2>
+    <div class="prose prose-invert max-w-none">
+      <p class="text-gray-300 mb-4">
+        Nossa meta é criar uma plataforma sustentável que conecte produtores locais com consumidores conscientes. 
+        Com contribuições mensais, conseguimos manter a infraestrutura funcionando e investir em crescimento.
+      </p>
+      <p class="text-gray-300">
+        <strong>Meta base:</strong> R$ {progress.goal}/mês para cobrir plataforma e domínio.<br />
+        <strong>Acima disso:</strong> tudo vai para divulgação — impulsionar posts, criar materiais, 
+        fotografar produtos e publicar novas bancas com mais agilidade.
+      </p>
+    </div>
+  </section>
+
+  <!-- O que já está em andamento -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">O que já está em andamento</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="border border-gray-700 rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-3 text-green-400">🌐 Plataforma Online</h3>
+        <p class="text-gray-300">Site responsivo funcionando com páginas institucionais e sistema de assinaturas.</p>
+      </div>
+      <div class="border border-gray-700 rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-3 text-green-400">💳 Pagamentos</h3>
+        <p class="text-gray-300">Integração com Mercado Pago para assinaturas mensais seguras e transparentes.</p>
+      </div>
+      <div class="border border-gray-700 rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-3 text-green-400">📊 Transparência</h3>
+        <p class="text-gray-300">Barra de progresso em tempo real conectada com planilha pública dos recursos.</p>
+      </div>
+      <div class="border border-gray-700 rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-3 text-green-400">📱 Contato Direto</h3>
+        <p class="text-gray-300">Sistema de redirecionamento para WhatsApp facilitando contato com produtores.</p>
+      </div>
+      <div class="border border-gray-700 rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-3 text-green-400">🔧 Infraestrutura</h3>
+        <p class="text-gray-300">Hospedagem confiável, domínio próprio e sistema de webhooks para automação.</p>
+      </div>
+      <div class="border border-gray-700 rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-3 text-green-400">♿ Acessibilidade</h3>
+        <p class="text-gray-300">Design responsivo e acessível seguindo boas práticas para todos os usuários.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">Roadmap</h2>
+    
+    <div class="space-y-6">
+      <!-- Concluído -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4 text-green-400">✅ Concluído</h3>
+        <ul class="space-y-2 text-gray-300 ml-4">
+          <li>• Estrutura básica do site com Astro</li>
+          <li>• Integração com Mercado Pago (assinaturas)</li>
+          <li>• Sistema de progresso em tempo real</li>
+          <li>• Páginas institucionais (Apoie, Sobre, Produtores)</li>
+          <li>• SEO básico e acessibilidade</li>
+        </ul>
+      </div>
+
+      <!-- Próximo -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4 text-yellow-400">🚧 Próximo</h3>
+        <ul class="space-y-2 text-gray-300 ml-4">
+          <li>• Listagem pública de produtores</li>
+          <li>• Sistema de busca e filtros</li>
+          <li>• Página de produtos com categorias</li>
+          <li>• Melhorias no design e UX</li>
+        </ul>
+      </div>
+
+      <!-- Futuro -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4 text-blue-400">🔮 Futuro</h3>
+        <ul class="space-y-2 text-gray-300 ml-4">
+          <li>• Sistema de pedidos online</li>
+          <li>• Painel administrativo</li>
+          <li>• App mobile</li>
+          <li>• Relatórios e analytics avançados</li>
+          <li>• Programa de fidelidade</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como participar -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">Como participar</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="border border-gray-700 rounded-lg p-6">
+        <h3 class="text-xl font-semibold mb-4 text-green-400">🤝 Como Apoiador</h3>
+        <p class="text-gray-300 mb-4">
+          Contribua mensalmente com qualquer valor. Sua doação ajuda a manter a plataforma funcionando 
+          e a investir em melhorias contínuas.
+        </p>
+        <a 
+          href="/assinar" 
+          class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+          aria-label="Apoiar mensalmente o Mercado Biorregional Lumiar"
+          onclick="window.dispatchEvent(new CustomEvent('track', {detail:{event:'click_cta', target:'assinar'}}))"
+        >
+          Apoiar mensalmente
+        </a>
+      </div>
+      
+      <div class="border border-gray-700 rounded-lg p-6">
+        <h3 class="text-xl font-semibold mb-4 text-blue-400">🌱 Como Produtor</h3>
+        <p class="text-gray-300 mb-4">
+          Quer cadastrar sua banca? Entre em contato via WhatsApp para combinarmos fotos, 
+          descrição e logística.
+        </p>
+        <a 
+          href="/whatsapp" 
+          class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+          aria-label="Entrar em contato via WhatsApp"
+          onclick="window.dispatchEvent(new CustomEvent('track', {detail:{event:'click_cta', target:'whatsapp'}}))"
+        >
+          Falar no WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comunidade -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">Comunidade</h2>
+    <div class="bg-gray-800 rounded-lg p-8 text-center">
+      <h3 class="text-xl font-semibold mb-4">Junte-se à nossa comunidade</h3>
+      <p class="text-gray-300 mb-6 max-w-2xl mx-auto">
+        Faça parte de uma rede de pessoas que acreditam na economia local e sustentável. 
+        Conecte-se com produtores, conheça histórias inspiradoras e acompanhe o crescimento 
+        do mercado biorregional.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          href="/whatsapp" 
+          class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+          aria-label="Entrar na comunidade via WhatsApp"
+          onclick="window.dispatchEvent(new CustomEvent('track', {detail:{event:'click_cta', target:'whatsapp'}}))"
+        >
+          Entrar na comunidade
+        </a>
+        <a 
+          href="/sobre" 
+          class="inline-block border border-gray-600 hover:border-gray-500 text-gray-300 hover:text-white font-bold py-3 px-6 rounded-lg transition-colors"
+          aria-label="Saber mais sobre o projeto"
+        >
+          Saber mais
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Dispatch view_progress event when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      const progressData = {
+        total: Number(document.querySelector('[data-total]')?.getAttribute('data-total') || 0),
+        goal: Number(document.querySelector('[data-goal]')?.getAttribute('data-goal') || 150),
+        supporters: Number(document.querySelector('[data-supporters]')?.getAttribute('data-supporters') || 0)
+      };
+      
+      window.dispatchEvent(new CustomEvent('track', {
+        detail: {
+          event: 'view_progress',
+          ...progressData
+        }
+      }));
+    });
+  </script>
+</BaseLayout>

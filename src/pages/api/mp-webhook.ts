@@ -30,14 +30,16 @@ async function fetchPreapproval(preapprovalId: string) {
 }
 
 export const POST: APIRoute = async ({ request }) => {
-  // Validação de método
-  if (new URL(request.url).pathname.endsWith('/mp-webhook') && request.method !== 'POST') {
-    return new Response('method not allowed', { status: 405 });
+  // Validação de método (405 para não-POST)
+  if (request.method !== 'POST') {
+    return new Response('Method Not Allowed', { status: 405 });
   }
   
-  // Validação de tamanho do payload
+  // Validação de tamanho do payload (413 para >200KB)
   const len = Number(request.headers.get('content-length') || '0');
-  if (len > 200_000) return new Response('payload too large', { status: 413 });
+  if (len > 200_000) {
+    return new Response('Payload Too Large', { status: 413 });
+  }
 
   const raw = await request.text();
   let body: any;
