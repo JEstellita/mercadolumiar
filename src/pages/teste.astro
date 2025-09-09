@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Teste de APIs">
+  <h1>Teste de APIs</h1>
+  
+  <div id="test-results" style="font-family: monospace; white-space: pre-wrap; background: #1a1a1a; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0;">
+    Carregando testes...
+  </div>
+
+  <script>
+    async function runTests() {
+      const results = document.getElementById('test-results');
+      let output = 'Executando testes...\n\n';
+      
+      // Test 1: Health endpoint
+      try {
+        output += '🔍 Testando /api/health...\n';
+        const healthResponse = await fetch('/api/health');
+        const healthData = await healthResponse.json();
+        output += `✅ Status: ${healthResponse.status}\n`;
+        output += `📄 Resposta: ${JSON.stringify(healthData, null, 2)}\n\n`;
+      } catch (error) {
+        output += `❌ Erro no health: ${error instanceof Error ? error.message : String(error)}\n\n`;
+      }
+      
+      // Test 2: Progress endpoint
+      try {
+        output += '🔍 Testando /api/progresso...\n';
+        const progressResponse = await fetch('/api/progresso');
+        const progressData = await progressResponse.json();
+        output += `✅ Status: ${progressResponse.status}\n`;
+        output += `📄 Resposta: ${JSON.stringify(progressData, null, 2)}\n\n`;
+      } catch (error) {
+        output += `❌ Erro no progresso: ${error instanceof Error ? error.message : String(error)}\n\n`;
+      }
+      
+      // Test 3: Redirects
+      try {
+        output += '🔍 Testando redirects...\n';
+        
+        const assinarResponse = await fetch('/assinar', { redirect: 'manual' });
+        output += `📍 /assinar: ${assinarResponse.status}\n`;
+        
+        const whatsappResponse = await fetch('/whatsapp', { redirect: 'manual' });
+        output += `📍 /whatsapp: ${whatsappResponse.status}\n\n`;
+      } catch (error) {
+        output += `❌ Erro nos redirects: ${error instanceof Error ? error.message : String(error)}\n\n`;
+      }
+      
+      output += '✨ Testes concluídos!';
+      if (results) results.textContent = output;
+    }
+    
+    // Executar testes quando página carregar
+    document.addEventListener('DOMContentLoaded', runTests);
+  </script>
+</BaseLayout>
