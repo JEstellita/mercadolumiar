@@ -1,5 +1,7 @@
 import type { APIRoute } from 'astro';
 
+export const prerender = false; // Força server-side rendering para esta rota
+
 export const GET: APIRoute = async () => {
   return new Response(JSON.stringify({
     message: 'API funcionando!',

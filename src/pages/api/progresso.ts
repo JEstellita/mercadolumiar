@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getSheetsReadonly, SHEET_ID, TAB_ARRECAD } from '../../lib/google/sheets';
 
+export const prerender = false;
+
 const APPROVED = new Set(['authorized','active','approved','paid']);
 
 export const GET: APIRoute = async () => {

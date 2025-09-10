@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getSheetsReadonly, SHEET_ID, TAB_ARRECAD } from '../../lib/google/sheets';
 
+export const prerender = false;
+
 export const GET: APIRoute = async () => {
   // Debug das variáveis de ambiente
   const debug = {
