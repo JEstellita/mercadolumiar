@@ -1,13 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-// Dados da campanha
-const campaignData = {
-  currentAmount: 67.50,
+// Buscar dados reais da API
+let campaignData = {
+  currentAmount: 0,
   goal: 150.00,
-  supporters: 9,
-  percentage: 45
+  supporters: 0,
+  percentage: 0
 };
+
+try {
+  const response = await fetch(`${Astro.url.origin}/api/progresso`);
+  if (response.ok) {
+    const data = await response.json();
+    campaignData = {
+      currentAmount: data.totalMonthly || 0,
+      goal: data.goal || 150,
+      supporters: data.supporters || 0,
+      percentage: Math.round((data.totalMonthly || 0) / (data.goal || 150) * 100)
+    };
+  }
+} catch (error) {
+  console.log('Erro ao buscar dados da campanha:', error);
+  // Mantém os valores padrão (zeros)
+}
 ---
 
 <BaseLayout title="Mercado Biorregional Lumiar - Campanha de Apoio">
@@ -56,10 +72,10 @@ const campaignData = {
         
         <div style="text-align: center; padding: 1rem;">
           <div style="font-size: 2.5rem; font-weight: 800; color: #2f7d32; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif;">
-            23
+            {campaignData.percentage}%
           </div>
           <div style="color: #666; font-weight: 500; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 0.05em;">
-            Dias Restantes
+            Concluído
           </div>
         </div>
         
@@ -75,12 +91,21 @@ const campaignData = {
 
       <!-- Progress Bar -->
       <div style="background: #e8f5e8; border-radius: 50px; height: 20px; margin: 2rem 0; overflow: hidden; position: relative;">
-        <div style="background: linear-gradient(135deg, #2f7d32 0%, #4caf50 100%); height: 100%; border-radius: 50px; width: 45%; transition: width 0.8s ease;"></div>
+        <div style="background: linear-gradient(135deg, #2f7d32 0%, #4caf50 100%); height: 100%; border-radius: 50px; width: {campaignData.percentage}%; transition: width 0.8s ease;"></div>
       </div>
       
       <div style="text-align: center; margin-top: 1rem; font-weight: 600; color: #2f7d32;">
-        <strong>45% da meta alcançada</strong> • 
-        Faltam apenas <strong>R$ {(campaignData.goal - campaignData.currentAmount).toFixed(2)}</strong>
+        {campaignData.percentage > 0 ? (
+          <>
+            <strong>{campaignData.percentage}% da meta alcançada</strong> • 
+            Faltam apenas <strong>R$ {(campaignData.goal - campaignData.currentAmount).toFixed(2)}</strong>
+          </>
+        ) : (
+          <>
+            <strong>Campanha iniciada!</strong> • 
+            Seja o primeiro apoiador e ajude a alcançar <strong>R$ {campaignData.goal.toFixed(2)}</strong>
+          </>
+        )}
       </div>
 
       <!-- CTA Buttons -->
