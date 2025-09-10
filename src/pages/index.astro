@@ -7,21 +7,21 @@ const featuredProducts = [
     description: "Verduras frescas colhidas diariamente direto da horta",
     provider: "Sítio Verde",
     price: "R$ 15-25",
-    icon: "🥬"
+    icon: "H"
   },
   {
     title: "Mel Artesanal",
     description: "Mel puro das flores silvestres das montanhas",
     provider: "Apiário da Serra",
     price: "R$ 35",
-    icon: "🍯"
+    icon: "M"
   },
   {
     title: "Queijos Artesanais",
     description: "Queijos frescos e curados com leite local",
     provider: "Laticínios do Vale",
     price: "R$ 25-45",
-    icon: "🧀"
+    icon: "Q"
   }
 ];
 
@@ -31,21 +31,21 @@ const services = [
     description: "Pratos especiais para eventos e celebrações",
     provider: "Chef da Roça",
     price: "Sob consulta",
-    icon: "👨‍🍳"
+    icon: "C"
   },
   {
     title: "Transporte Sustentável",
     description: "Entrega ecológica para toda a região",
     provider: "Eco Transport",
     price: "R$ 10-30",
-    icon: "🚲"
+    icon: "T"
   },
   {
     title: "Artesanato Local",
     description: "Peças únicas feitas com materiais da região",
     provider: "Ateliê Lumiar",
     price: "R$ 50-200",
-    icon: "🎨"
+    icon: "A"
   }
 ];
 ---
@@ -55,28 +55,28 @@ const services = [
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <div class="hero-badge fade-in">
-          <span>🌟</span>
+        <div class="hero-badge text-center">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
           Economia Local Sustentável
         </div>
         
-        <h1 class="hero-title fade-in">
+        <h1 class="hero-title text-center">
           Compre local,<br>
           <span style="background: linear-gradient(135deg, #2d5016, #68d391); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">construa futuro</span>
         </h1>
         
-        <p class="hero-subtitle fade-in">
+        <p class="hero-subtitle text-center">
           Conecte-se diretamente com <strong>produtores e prestadores de serviços</strong> 
           em Lumiar e Biorregião. Uma plataforma que fortalece nossa economia local.
         </p>
         
-        <div class="hero-actions fade-in">
+        <div class="hero-actions flex-center">
           <a href="/produtores" class="btn btn-primary">
-            <span>🛒</span>
             Ver Produtores
           </a>
           <a href="/campanha" class="btn btn-outline">
-            <span>📈</span>
             Apoiar Campanha
           </a>
         </div>
@@ -96,7 +96,7 @@ const services = [
       
       <div class="cards-grid">
         {featuredProducts.map((product, index) => (
-          <div class="card fade-in" style={`transition-delay: ${index * 0.1}s`}>
+          <div class="card">
             <div class="card-icon">
               {product.icon}
             </div>
@@ -110,10 +110,9 @@ const services = [
         ))}
       </div>
       
-      <div style="text-align: center; margin-top: 3rem;">
+      <div class="text-center" style="margin-top: 3rem;">
         <a href="/produtores" class="btn btn-outline">
           Ver Todos os Produtores
-          <span>→</span>
         </a>
       </div>
     </div>
@@ -131,7 +130,7 @@ const services = [
       
       <div class="cards-grid">
         {services.map((service, index) => (
-          <div class="card fade-in" style={`transition-delay: ${index * 0.1}s`}>
+          <div class="card">
             <div class="card-icon">
               {service.icon}
             </div>
@@ -145,10 +144,9 @@ const services = [
         ))}
       </div>
       
-      <div style="text-align: center; margin-top: 3rem;">
+      <div class="text-center" style="margin-top: 3rem;">
         <a href="/sobre" class="btn btn-outline">
           Conhecer Mais Serviços
-          <span>→</span>
         </a>
       </div>
     </div>
@@ -165,27 +163,27 @@ const services = [
       </div>
       
       <div class="cards-grid">
-        <div class="card slide-in-left">
-          <div class="card-icon">🔍</div>
-          <h3 class="card-title">1. Explore</h3>
+        <div class="card">
+          <div class="card-icon">1</div>
+          <h3 class="card-title">Explore</h3>
           <p class="card-description">
             Navegue pelos produtores e prestadores de serviços locais. 
             Veja fotos, descrições detalhadas e informações de contato.
           </p>
         </div>
         
-        <div class="card fade-in" style="transition-delay: 0.1s">
-          <div class="card-icon">💬</div>
-          <h3 class="card-title">2. Conecte</h3>
+        <div class="card">
+          <div class="card-icon">2</div>
+          <h3 class="card-title">Conecte</h3>
           <p class="card-description">
             Entre em contato direto via WhatsApp. Tire dúvidas, 
             negocie preços e combine entregas ou retiradas.
           </p>
         </div>
         
-        <div class="card slide-in-right" style="transition-delay: 0.2s">
-          <div class="card-icon">🌱</div>
-          <h3 class="card-title">3. Fortaleça</h3>
+        <div class="card">
+          <div class="card-icon">3</div>
+          <h3 class="card-title">Fortaleça</h3>
           <p class="card-description">
             Ao comprar local, você fortalece nossa economia e 
             contribui para um futuro mais sustentável.
@@ -206,13 +204,11 @@ const services = [
       </div>
       
       <div style="text-align: center; margin-top: 3rem;">
-        <div class="hero-actions fade-in">
+        <div class="hero-actions text-center">
           <a href="/assinar" class="btn" style="background: white; color: #2d5016;">
-            <span>🌱</span>
             Apoiar Mensalmente
           </a>
           <a href="/whatsapp" class="btn btn-outline" style="border-color: white; color: white;">
-            <span>💬</span>
             Falar no WhatsApp
           </a>
         </div>
