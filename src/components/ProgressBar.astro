@@ -3,64 +3,69 @@ const { total = 0, goal = 150, supporters = 0, stale = false } = Astro.props;
 const pct = Math.min(100, Math.round((total/goal)*100));
 ---
 <div 
-  class="bg-white rounded-2xl p-8 shadow-lg border border-neutral-200"
+  class="progress-container"
   data-total={total}
   data-goal={goal}
   data-supporters={supporters}
 >
   <!-- Progress header -->
-  <div class="flex items-center justify-between mb-6">
+  <div class="progress-header">
     <div>
-      <h3 class="text-2xl font-bold text-neutral-900 mb-2">Meta da Campanha</h3>
-      <p class="text-neutral-600">Vamos juntos até R$ {goal}/mês</p>
+      <h3 style="font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem;">Meta da Campanha</h3>
+      <p style="color: #6b7280;">Vamos juntos até R$ {goal}/mês</p>
     </div>
-    <div class="text-right">
-      <div class="text-3xl font-bold text-primary-600">{pct}%</div>
-      <div class="text-sm text-neutral-500">concluído</div>
+    <div style="text-align: right;">
+      <div style="font-size: 1.875rem; font-weight: 700; color: #16a34a;">{pct}%</div>
+      <div style="font-size: 0.875rem; color: #9ca3af;">concluído</div>
     </div>
   </div>
 
   <!-- Progress bar -->
-  <div class="mb-6">
-    <div class="w-full h-4 bg-neutral-200 rounded-full overflow-hidden">
-      <div 
-        class="h-full bg-gradient-to-r from-primary-500 to-primary-600 rounded-full transition-all duration-700 ease-out"
-        style={`width: ${pct}%`}
-      ></div>
-    </div>
+  <div class="progress-bar">
+    <div 
+      class="progress-fill"
+      style={`width: ${pct}%`}
+    ></div>
   </div>
 
   <!-- Progress stats -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="text-center p-4 bg-primary-50 rounded-xl">
-      <div class="text-2xl font-bold text-primary-600">
+  <div class="progress-stats">
+    <div class="stat">
+      <div class="stat-value">
         R$ {total.toFixed(2)}
       </div>
-      <div class="text-sm text-neutral-600">arrecadado</div>
+      <div class="stat-label">arrecadado</div>
     </div>
     
-    <div class="text-center p-4 bg-primary-50 rounded-xl">
-      <div class="text-2xl font-bold text-primary-600">
+    <div class="stat">
+      <div class="stat-value">
         R$ {goal}
       </div>
-      <div class="text-sm text-neutral-600">meta mensal</div>
+      <div class="stat-label">meta mensal</div>
     </div>
     
-    <div class="text-center p-4 bg-primary-50 rounded-xl">
-      <div class="text-2xl font-bold text-primary-600">
+    <div class="stat">
+      <div class="stat-value">
         {supporters}
       </div>
-      <div class="text-sm text-neutral-600">apoiadores</div>
+      <div class="stat-label">apoiadores</div>
     </div>
   </div>
 
   {stale && (
-    <div class="mt-4 flex items-center justify-center text-sm text-neutral-500">
-      <svg class="animate-spin w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    <div style="margin-top: 1rem; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #9ca3af;">
+      <svg style="animation: spin 1s linear infinite; width: 1rem; height: 1rem; margin-right: 0.5rem;" fill="none" viewBox="0 0 24 24">
+        <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
       </svg>
       Atualizando dados...
     </div>
   )}
 </div>
+
+<style>
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+</style>
