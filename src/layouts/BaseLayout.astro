@@ -729,6 +729,305 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
         }
       }
     </style>
+
+    <!-- Enhanced Component Styles -->
+    <style>
+      /* Enhanced Sections */
+      .features-section {
+        background: linear-gradient(135deg, #f8fafe 0%, #ffffff 100%);
+      }
+
+      .services-section {
+        background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      .section-cta {
+        text-align: center;
+        margin-top: 3rem;
+      }
+
+      /* Feature Cards */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .feature-card {
+        position: relative;
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(59, 130, 246, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        animation: fadeInUp 0.6s ease-out var(--delay, 0s) both;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(59, 130, 246, 0.2);
+      }
+
+      .feature-icon {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        margin-bottom: 1.5rem;
+      }
+
+      .icon-emoji {
+        font-size: 1.5rem;
+        position: relative;
+        z-index: 2;
+        display: block;
+        width: 100%;
+        text-align: center;
+      }
+
+      .icon-bg {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        background: linear-gradient(135deg, #3b82f6, #1e40af);
+        border-radius: 50%;
+        opacity: 0.1;
+        transform: rotate(45deg);
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover .icon-bg {
+        transform: rotate(90deg) scale(1.1);
+        opacity: 0.2;
+      }
+
+      .feature-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .feature-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #1e40af;
+        margin-bottom: 0.8rem;
+      }
+
+      .feature-description {
+        color: #64748b;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .producer-tag, .provider-badge {
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        color: #475569;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+
+      .price-tag {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .feature-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(30, 64, 175, 0.05));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      }
+
+      .feature-card:hover .feature-overlay {
+        opacity: 1;
+      }
+
+      /* Service Windows */
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .service-window {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        animation: slideInUp 0.8s ease-out var(--delay, 0s) both;
+        border: 1px solid #e2e8f0;
+      }
+
+      .service-window:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+      }
+
+      .window-header {
+        background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+        padding: 0.8rem 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .window-controls {
+        display: flex;
+        gap: 0.4rem;
+      }
+
+      .control {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      .control.close {
+        background: #ef4444;
+      }
+
+      .control.minimize {
+        background: #f59e0b;
+      }
+
+      .control.maximize {
+        background: #10b981;
+      }
+
+      .window-title {
+        font-size: 0.85rem;
+        color: #64748b;
+        font-weight: 500;
+      }
+
+      .window-content {
+        padding: 2rem;
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+
+      .service-icon {
+        flex-shrink: 0;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .service-icon .icon-emoji {
+        font-size: 1.2rem;
+      }
+
+      .service-info {
+        flex: 1;
+      }
+
+      .service-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #1e40af;
+        margin-bottom: 0.8rem;
+      }
+
+      .service-description {
+        color: #64748b;
+        line-height: 1.6;
+        margin-bottom: 1.2rem;
+      }
+
+      .service-meta {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+      }
+
+      /* Enhanced Button Styles */
+      .btn-large {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        border-radius: 12px;
+      }
+
+      .btn-large svg {
+        margin-left: 0.5rem;
+        transition: transform 0.2s ease;
+      }
+
+      .btn-large:hover svg {
+        transform: translateX(4px);
+      }
+
+      /* Animations */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .features-grid,
+        .services-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .feature-card,
+        .service-window {
+          padding: 1.5rem;
+        }
+
+        .window-content {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .service-icon {
+          align-self: flex-start;
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- Header -->

@@ -67,7 +67,7 @@ const featuredServices = [
     <div class="container">
       <!-- Hero badge -->
       <div class="hero-badge anime-fade-in">
-        <svg fill="currentColor" viewBox="0 0 20 20">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
         </svg>
         Economia Local Sustentável
@@ -75,24 +75,25 @@ const featuredServices = [
 
       <!-- Hero title -->
       <h1 class="hero-title anime-slide-up">
-        Compre local,
-        <br>
+        Compre local,<br>
         <span class="hero-gradient">construa futuro</span>
       </h1>
 
       <!-- Hero description -->
       <p class="hero-description anime-fade-in-delayed">
-        Conecte-se diretamente com <strong style="color: #16a34a;">produtores e prestadores de serviços</strong> 
+        Conecte-se diretamente com <strong>produtores e prestadores de serviços</strong> 
         em Lumiar e Biorregião. Uma plataforma que fortalece nossa economia local.
       </p>
 
       <!-- Hero CTAs -->
       <div class="hero-buttons anime-buttons">
-        <a href="/produtores" class="btn btn-primary">
-          🛒 Ver Produtores
+        <a href="/produtores" class="btn btn-primary btn-large">
+          <span class="btn-icon">🛒</span>
+          <span>Ver Produtores</span>
         </a>
-        <a href="/campanha" class="btn btn-secondary">
-          📈 Apoiar Campanha
+        <a href="/campanha" class="btn btn-secondary btn-large">
+          <span class="btn-icon">📈</span>
+          <span>Apoiar Campanha</span>
         </a>
       </div>
     </div>
@@ -128,60 +129,86 @@ const featuredServices = [
   </section>
 
   <!-- Products Section -->
-  <section class="section" style="background: white;">
+  <section class="section features-section">
     <div class="container">
-      <div style="text-align: center; margin-bottom: 3rem;">
+      <div class="section-header">
         <h2 class="section-title">Produtos em Destaque</h2>
         <p class="section-subtitle">Direto de quem produz em Lumiar e Biorregião</p>
       </div>
 
-      <div class="grid grid-3" style="margin-bottom: 2rem;">
-        {featuredProducts.map((product) => (
-          <div class="product-card">
-            <div class="product-emoji">{product.image}</div>
-            <h3 class="product-title">{product.title}</h3>
-            <p class="product-description">{product.description}</p>
-            <div class="product-info">
-              <p class="provider-name">{product.producer}</p>
-              <p class="price">{product.price}</p>
+      <div class="features-grid">
+        {featuredProducts.map((product, index) => (
+          <div class="feature-card product-card" style={`--delay: ${index * 0.1}s`}>
+            <div class="feature-icon">
+              <span class="icon-emoji">{product.image}</span>
+              <div class="icon-bg"></div>
             </div>
+            <div class="feature-content">
+              <h3 class="feature-title">{product.title}</h3>
+              <p class="feature-description">{product.description}</p>
+              <div class="feature-meta">
+                <span class="producer-tag">{product.producer}</span>
+                <span class="price-tag">{product.price}</span>
+              </div>
+            </div>
+            <div class="feature-overlay"></div>
           </div>
         ))}
       </div>
 
-      <div style="text-align: center;">
-        <a href="/produtores" class="btn btn-primary">
-          Ver Todos os Produtores
+      <div class="section-cta">
+        <a href="/produtores" class="btn btn-primary btn-large">
+          <span>Ver Todos os Produtores</span>
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
         </a>
       </div>
     </div>
   </section>
 
   <!-- Services Section -->
-  <section class="section">
+  <section class="section services-section">
     <div class="container">
-      <div style="text-align: center; margin-bottom: 3rem;">
+      <div class="section-header">
         <h2 class="section-title">Serviços Locais</h2>
         <p class="section-subtitle">Prestadores de serviços da nossa comunidade</p>
       </div>
 
-      <div class="grid grid-3" style="margin-bottom: 2rem;">
-        {featuredServices.map((service) => (
-          <div class="service-card">
-            <div class="service-emoji">{service.image}</div>
-            <h3 class="service-title">{service.title}</h3>
-            <p class="service-description">{service.description}</p>
-            <div class="service-info">
-              <p class="provider-name">{service.provider}</p>
-              <p class="price">{service.price}</p>
+      <div class="services-grid">
+        {featuredServices.map((service, index) => (
+          <div class="service-window" style={`--delay: ${index * 0.15}s`}>
+            <div class="window-header">
+              <div class="window-controls">
+                <div class="control close"></div>
+                <div class="control minimize"></div>
+                <div class="control maximize"></div>
+              </div>
+              <div class="window-title">{service.category || 'Serviço'}</div>
+            </div>
+            <div class="window-content">
+              <div class="service-icon">
+                <span class="icon-emoji">{service.image}</span>
+              </div>
+              <div class="service-info">
+                <h3 class="service-title">{service.title}</h3>
+                <p class="service-description">{service.description}</p>
+                <div class="service-meta">
+                  <span class="provider-badge">{service.provider}</span>
+                  <span class="price-tag">{service.price}</span>
+                </div>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div style="text-align: center;">
-        <a href="/produtores" class="btn btn-primary">
-          Ver Todos os Serviços
+      <div class="section-cta">
+        <a href="/produtores" class="btn btn-outline btn-large">
+          <span>Ver Todos os Serviços</span>
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
         </a>
       </div>
     </div>
