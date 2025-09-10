@@ -1,9 +1,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  output: 'hybrid', // Permite páginas estáticas + APIs server-rendered
+  output: 'server', // Páginas server-rendered para APIs funcionarem
   adapter: vercel(),
   site: process.env.PUBLIC_SITE_URL || 'https://mercadolumiar.vercel.app',
   integrations: [
