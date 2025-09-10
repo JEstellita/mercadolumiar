@@ -1,0 +1,174 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Dados da campanha
+const campaignData = {
+  currentAmount: 67.50,
+  goal: 150.00,
+  supporters: 9,
+  percentage: 45
+};
+---
+
+<BaseLayout title="Mercado Biorregional Lumiar - Campanha de Apoio">
+  <!-- Hero Section -->
+  <section style="background: linear-gradient(135deg, #f8fffe 0%, #e8f5e8 100%); padding: 6rem 0 4rem; text-align: center;">
+    <div style="max-width: 800px; margin: 0 auto; padding: 0 1rem;">
+      
+      <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #2f7d32 0%, #4caf50 100%); color: white; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; margin-bottom: 2rem;">
+        🎯 Campanha Ativa
+      </div>
+      
+      <h1 style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: #212121; margin-bottom: 1.5rem; line-height: 1.1;">
+        Transforme Lumiar com<br>
+        <span style="background: linear-gradient(135deg, #2f7d32, #4caf50); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Economia Local</span>
+      </h1>
+      
+      <p style="font-size: 1.25rem; color: #666; margin-bottom: 3rem; line-height: 1.6;">
+        Precisamos de <strong>apenas R$ 150/mês</strong> para manter nossa plataforma funcionando e conectar toda a comunidade. Com seu apoio, criaremos o <strong>Lumiar.Shop</strong> - a primeira marketplace digital da nossa biorregião.
+      </p>
+    </div>
+  </section>
+
+  <!-- Progress Section -->
+  <section style="background: white; padding: 3rem 0; box-shadow: 0 8px 32px rgba(47, 125, 50, 0.15); border-radius: 16px; margin: -2rem 1rem 4rem; position: relative; z-index: 3;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+      
+      <!-- Stats -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+        <div style="text-align: center; padding: 1rem;">
+          <div style="font-size: 2.5rem; font-weight: 800; color: #2f7d32; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif;">
+            R$ {campaignData.currentAmount.toFixed(2)}
+          </div>
+          <div style="color: #666; font-weight: 500; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 0.05em;">
+            Arrecadado
+          </div>
+        </div>
+        
+        <div style="text-align: center; padding: 1rem;">
+          <div style="font-size: 2.5rem; font-weight: 800; color: #2f7d32; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif;">
+            {campaignData.supporters}
+          </div>
+          <div style="color: #666; font-weight: 500; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 0.05em;">
+            Apoiadores
+          </div>
+        </div>
+        
+        <div style="text-align: center; padding: 1rem;">
+          <div style="font-size: 2.5rem; font-weight: 800; color: #2f7d32; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif;">
+            23
+          </div>
+          <div style="color: #666; font-weight: 500; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 0.05em;">
+            Dias Restantes
+          </div>
+        </div>
+        
+        <div style="text-align: center; padding: 1rem;">
+          <div style="font-size: 2.5rem; font-weight: 800; color: #2f7d32; margin-bottom: 0.5rem; font-family: 'Playfair Display', serif;">
+            R$ {campaignData.goal.toFixed(2)}
+          </div>
+          <div style="color: #666; font-weight: 500; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 0.05em;">
+            Meta Mensal
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div style="background: #e8f5e8; border-radius: 50px; height: 20px; margin: 2rem 0; overflow: hidden; position: relative;">
+        <div style="background: linear-gradient(135deg, #2f7d32 0%, #4caf50 100%); height: 100%; border-radius: 50px; width: 45%; transition: width 0.8s ease;"></div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 1rem; font-weight: 600; color: #2f7d32;">
+        <strong>45% da meta alcançada</strong> • 
+        Faltam apenas <strong>R$ {(campaignData.goal - campaignData.currentAmount).toFixed(2)}</strong>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 3rem;">
+        <a href="/apoie" style="background: linear-gradient(135deg, #2f7d32 0%, #4caf50 100%); color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1.1rem; box-shadow: 0 8px 32px rgba(47, 125, 50, 0.15); transform: scale(1.05); transition: all 0.3s ease;">
+          💚 Apoiar Mensalmente
+        </a>
+        <a href="/whatsapp" style="background: transparent; color: #2f7d32; border: 2px solid #2f7d32; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1.1rem; transition: all 0.3s ease;">
+          💬 Tire suas Dúvidas
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section style="background: #f5f5f5; padding: 4rem 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #212121; margin-bottom: 1rem;">
+          Por que Apoiar?
+        </h2>
+        <p style="font-size: 1.125rem; color: #666; max-width: 600px; margin: 0 auto;">
+          Seu apoio mensal garante a sustentabilidade da plataforma e fortalece toda nossa economia local
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 8px 32px rgba(47, 125, 50, 0.15); text-align: center;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #2f7d32 0%, #4caf50 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">
+            🌱
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #212121; margin-bottom: 0.5rem;">
+            Economia Local Forte
+          </h3>
+          <p style="color: #666; line-height: 1.6;">
+            Fortaleça produtores locais e crie um ciclo econômico sustentável em nossa biorregião.
+          </p>
+        </div>
+
+        <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 8px 32px rgba(47, 125, 50, 0.15); text-align: center;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #2f7d32 0%, #4caf50 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">
+            🤝
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #212121; margin-bottom: 0.5rem;">
+            Comunidade Conectada
+          </h3>
+          <p style="color: #666; line-height: 1.6;">
+            Conecte-se diretamente com produtores, artesãos e prestadores de serviços da região.
+          </p>
+        </div>
+
+        <div style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 8px 32px rgba(47, 125, 50, 0.15); text-align: center;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #2f7d32 0%, #4caf50 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem;">
+            🚀
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #212121; margin-bottom: 0.5rem;">
+            Plataforma Lumiar.Shop
+          </h3>
+          <p style="color: #666; line-height: 1.6;">
+            Ajude a criar a primeira plataforma digital de economia local de Lumiar.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section style="background: linear-gradient(135deg, #2f7d32 0%, #4caf50 100%); color: white; padding: 3rem 0; text-align: center;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">
+        Junte-se aos {campaignData.supporters} apoiadores
+      </h2>
+      <p style="font-size: 1.125rem; margin-bottom: 2rem; opacity: 0.9;">
+        Cada apoio de R$ 15/mês faz a diferença. Juntos, vamos criar o futuro da economia local em Lumiar.
+      </p>
+      
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="/apoie" style="background: white; color: #2f7d32; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
+          🚀 Quero Apoiar Agora
+        </a>
+        <a href="/whatsapp" style="background: transparent; border: 2px solid white; color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">
+          📱 Falar no WhatsApp
+        </a>
+      </div>
+      
+      <div style="margin-top: 2rem; font-size: 0.875rem; opacity: 0.8;">
+        ⚡ Apoio recorrente • Cancele quando quiser • 100% seguro
+      </div>
+    </div>
+  </section>
+</BaseLayout>
