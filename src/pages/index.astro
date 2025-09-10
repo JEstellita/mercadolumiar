@@ -184,7 +184,7 @@ const featuredServices = [
                 <div class="control minimize"></div>
                 <div class="control maximize"></div>
               </div>
-              <div class="window-title">{service.category || 'Serviço'}</div>
+              <div class="window-title">Serviço Local</div>
             </div>
             <div class="window-content">
               <div class="service-icon">
@@ -348,7 +348,7 @@ const featuredServices = [
             scale: [0.8, 1],
             opacity: [0, 1],
             duration: 800,
-            delay: function(el, i) { return (i * 100) + 800; },
+            delay: function(_el, i) { return (i * 100) + 800; },
             easing: 'easeOutBack'
           });
 
