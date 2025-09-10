@@ -91,17 +91,15 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
       }
 
       .logo-img {
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
         transition: all 0.3s ease;
         filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        object-fit: cover;
-        background: white;
+        object-fit: contain;
       }
 
       .logo-img:hover {
-        transform: rotate(5deg);
+        transform: scale(1.05);
         filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
       }
 
