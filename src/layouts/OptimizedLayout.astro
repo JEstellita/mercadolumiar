@@ -1,0 +1,523 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  og?: string;
+}
+
+const { title, description = "Mercado Biorregional Lumiar - Conectando produtores locais", og = "/og.png" } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={og} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+      /* === RESET & BASE === */
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        font-family: 'Inter', system-ui, sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        line-height: 1.6;
+        color: #2d3748;
+        background-color: #ffffff;
+      }
+
+      /* === LAYOUT === */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      .section {
+        padding: 4rem 0;
+      }
+
+      /* === HEADER === */
+      .header {
+        background: #ffffff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2f855a;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        background: linear-gradient(135deg, #2f855a 0%, #38a169 100%);
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .nav-link {
+        color: #4a5568;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+
+      .nav-link:hover {
+        color: #2f855a;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .btn-primary {
+        background: #2f855a;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #276749;
+        transform: translateY(-1px);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: #2f855a;
+        border: 2px solid #2f855a;
+      }
+
+      .btn-outline:hover {
+        background: #2f855a;
+        color: white;
+      }
+
+      /* === HERO === */
+      .hero {
+        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        padding: 8rem 0 4rem;
+        text-align: center;
+        margin-top: 80px;
+      }
+
+      .hero-title {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #1a202c;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+
+      .hero-subtitle {
+        font-size: 1.25rem;
+        color: #4a5568;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* === SECTIONS === */
+      .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1a202c;
+        margin-bottom: 1rem;
+      }
+
+      .section-subtitle {
+        font-size: 1.125rem;
+        color: #4a5568;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* === CARDS === */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        text-align: center;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-icon {
+        width: 4rem;
+        height: 4rem;
+        background: linear-gradient(135deg, #2f855a 0%, #38a169 100%);
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0 auto 1.5rem;
+      }
+
+      .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1a202c;
+        margin-bottom: 0.5rem;
+      }
+
+      .card-description {
+        color: #4a5568;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+
+      .card-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.875rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e2e8f0;
+      }
+
+      .card-provider {
+        color: #2f855a;
+        font-weight: 600;
+      }
+
+      .card-price {
+        color: #1a202c;
+        font-weight: 600;
+      }
+
+      /* === FEATURES === */
+      .features {
+        background: #f7fafc;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .feature {
+        text-align: center;
+        padding: 1.5rem;
+      }
+
+      .feature-number {
+        width: 3rem;
+        height: 3rem;
+        background: #2f855a;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin: 0 auto 1rem;
+      }
+
+      .feature-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1a202c;
+        margin-bottom: 0.5rem;
+      }
+
+      .feature-description {
+        color: #4a5568;
+        font-size: 0.875rem;
+      }
+
+      /* === CTA === */
+      .cta {
+        background: linear-gradient(135deg, #2f855a 0%, #38a169 100%);
+        color: white;
+        text-align: center;
+      }
+
+      .cta-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .cta-subtitle {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-white {
+        background: white;
+        color: #2f855a;
+      }
+
+      .btn-white:hover {
+        background: #f7fafc;
+        transform: translateY(-1px);
+      }
+
+      /* === FOOTER === */
+      .footer {
+        background: #1a202c;
+        color: white;
+        padding: 3rem 0 1rem;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-section h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #2f855a;
+      }
+
+      .footer-section p,
+      .footer-section a {
+        color: #a0aec0;
+        text-decoration: none;
+        line-height: 1.8;
+      }
+
+      .footer-section a:hover {
+        color: white;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid #2d3748;
+        padding-top: 1rem;
+        text-align: center;
+        color: #a0aec0;
+        font-size: 0.875rem;
+      }
+
+      /* === RESPONSIVE === */
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .nav {
+          display: none;
+        }
+
+        .hero-cta {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .cards-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* === ANIMATIONS === */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="/" class="logo">
+            <div class="logo-icon">ML</div>
+            Mercado Lumiar
+          </a>
+          
+          <nav class="nav">
+            <a href="#produtos" class="nav-link">Produtos</a>
+            <a href="#servicos" class="nav-link">Serviços</a>
+            <a href="/produtores" class="nav-link">Produtores</a>
+            <a href="/sobre" class="nav-link">Sobre</a>
+            <a href="/apoie" class="btn btn-primary">Apoiar</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Mercado Lumiar</h3>
+            <p>Conectando produtores locais e fortalecendo nossa economia biorregional através de alimentos frescos, serviços sustentáveis e comércio justo.</p>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Links Rápidos</h3>
+            <p><a href="/produtores">Nossos Produtores</a></p>
+            <p><a href="/sobre">Sobre Nós</a></p>
+            <p><a href="/apoie">Como Apoiar</a></p>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Contato</h3>
+            <p>Lumiar, Nova Friburgo - RJ</p>
+            <p>WhatsApp: (22) 99999-9999</p>
+            <p>Email: contato@mercadolumiar.com</p>
+          </div>
+          
+          <div class="footer-section">
+            <h3>Redes Sociais</h3>
+            <p><a href="#">Instagram</a></p>
+            <p><a href="#">Facebook</a></p>
+            <p><a href="#">WhatsApp</a></p>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2025 Mercado Biorregional Lumiar. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Animation Script -->
+    <script>
+      // Animate elements on scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+
+      // Observe elements when DOM is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.fade-in').forEach(el => {
+          observer.observe(el);
+        });
+      });
+    </script>
+  </body>
+</html>

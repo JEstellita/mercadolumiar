@@ -1,0 +1,214 @@
+---
+import OptimizedLayout from '../layouts/OptimizedLayout.astro';
+
+const featuredProducts = [
+  {
+    title: "Hortaliças Orgânicas",
+    description: "Verduras frescas colhidas diariamente direto da horta para sua mesa",
+    provider: "Sítio Verde",
+    price: "R$ 15-25",
+    icon: "🥬"
+  },
+  {
+    title: "Mel Artesanal",
+    description: "Mel puro das flores silvestres das montanhas de Lumiar",
+    provider: "Apiário da Serra",
+    price: "R$ 35",
+    icon: "🍯"
+  },
+  {
+    title: "Queijos Artesanais",
+    description: "Queijos frescos e curados com leite local de alta qualidade",
+    provider: "Laticínios do Vale",
+    price: "R$ 25-45",
+    icon: "🧀"
+  },
+  {
+    title: "Pães Caseiros",
+    description: "Pães artesanais assados em forno à lenha",
+    provider: "Padaria da Roça",
+    price: "R$ 8-15",
+    icon: "🍞"
+  },
+  {
+    title: "Café Especial",
+    description: "Grãos torrados na propriedade, sabor único da região",
+    provider: "Café das Montanhas",
+    price: "R$ 45",
+    icon: "☕"
+  },
+  {
+    title: "Frutas da Estação",
+    description: "Frutas sazonais colhidas no ponto certo de maturação",
+    provider: "Pomar Lumiar",
+    price: "R$ 10-20",
+    icon: "🍎"
+  }
+];
+
+const services = [
+  {
+    title: "Culinária Caseira",
+    description: "Pratos especiais para eventos e celebrações",
+    provider: "Chef da Roça",
+    price: "Sob consulta",
+    icon: "👨‍🍳"
+  },
+  {
+    title: "Transporte Sustentável",
+    description: "Entrega ecológica para toda a região",
+    provider: "Eco Transport",
+    price: "R$ 10-30",
+    icon: "🚚"
+  },
+  {
+    title: "Artesanato Local",
+    description: "Peças únicas feitas com materiais da região",
+    provider: "Ateliê Lumiar",
+    price: "R$ 50-200",
+    icon: "🎨"
+  }
+];
+
+const features = [
+  {
+    number: "1",
+    title: "Explore",
+    description: "Navegue pelos produtores e prestadores de serviços locais. Veja fotos, descrições detalhadas e informações de contato."
+  },
+  {
+    number: "2",
+    title: "Conecte",
+    description: "Entre em contato direto via WhatsApp. Tire dúvidas, negocie preços e combine entregas ou retiradas."
+  },
+  {
+    number: "3",
+    title: "Fortaleça",
+    description: "Ao comprar local, você fortalece nossa economia e contribui para um futuro mais sustentável."
+  }
+];
+---
+
+<OptimizedLayout title="Mercado Biorregional Lumiar">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title fade-in">
+        Mercado Biorregional<br>Lumiar
+      </h1>
+      <p class="hero-subtitle fade-in">
+        Conectando produtores locais e fortalecendo nossa economia através de alimentos frescos, serviços sustentáveis e comércio justo.
+      </p>
+      <div class="hero-cta fade-in">
+        <a href="#produtos" class="btn btn-primary">Explorar Produtos</a>
+        <a href="/produtores" class="btn btn-outline">Conhecer Produtores</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="produtos" class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2 class="section-title">Produtos em Destaque</h2>
+        <p class="section-subtitle">
+          Direto de quem produz em Lumiar e região. Frescos, saudáveis e com preços justos.
+        </p>
+      </div>
+      
+      <div class="cards-grid">
+        {featuredProducts.map((product) => (
+          <div class="card fade-in">
+            <div class="card-icon">
+              {product.icon}
+            </div>
+            <h3 class="card-title">{product.title}</h3>
+            <p class="card-description">{product.description}</p>
+            <div class="card-meta">
+              <span class="card-provider">{product.provider}</span>
+              <span class="card-price">{product.price}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="/produtores" class="btn btn-primary">
+          Ver Todos os Produtores
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="section features">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2 class="section-title">Como Funciona</h2>
+        <p class="section-subtitle">
+          Simples, direto e transparente
+        </p>
+      </div>
+      
+      <div class="features-grid">
+        {features.map((feature) => (
+          <div class="feature fade-in">
+            <div class="feature-number">
+              {feature.number}
+            </div>
+            <h3 class="feature-title">{feature.title}</h3>
+            <p class="feature-description">{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="servicos" class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2 class="section-title">Serviços Locais</h2>
+        <p class="section-subtitle">
+          Prestadores de serviços da nossa comunidade
+        </p>
+      </div>
+      
+      <div class="cards-grid">
+        {services.map((service) => (
+          <div class="card fade-in">
+            <div class="card-icon">
+              {service.icon}
+            </div>
+            <h3 class="card-title">{service.title}</h3>
+            <p class="card-description">{service.description}</p>
+            <div class="card-meta">
+              <span class="card-provider">{service.provider}</span>
+              <span class="card-price">{service.price}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="/produtores" class="btn btn-outline">
+          Conhecer Mais Serviços
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section cta">
+    <div class="container">
+      <h2 class="cta-title fade-in">Junte-se à nossa comunidade</h2>
+      <p class="cta-subtitle fade-in">
+        Ajude-nos a construir uma economia local forte e sustentável
+      </p>
+      <div class="cta-buttons fade-in">
+        <a href="/apoie" class="btn btn-white">Apoiar Mensalmente</a>
+        <a href="/whatsapp" class="btn btn-outline btn-white">Falar no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</OptimizedLayout>
