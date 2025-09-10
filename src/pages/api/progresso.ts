@@ -1,9 +1,4 @@
-import type { APIRoute } from 'astro';
-import { getSheetsReadonly, SHEET_ID, TAB_ARRECAD } from '../../lib/google/sheets';
-
 export const prerender = false;
-
-const APPROVED = new Set(['authorized','active','approved','paid']);
 
 export function GET() {
   const goal = Number(process.env.PUBLIC_GOAL_MONTHLY || 150);
