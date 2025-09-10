@@ -4,18 +4,9 @@ import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   output: 'static',
-  adapter: vercel({
-    functionPerRoute: false
-  }),
+  adapter: vercel(),
   site: process.env.PUBLIC_SITE_URL || 'https://mercadolumiar.vercel.app',
   integrations: [
     sitemap()
-  ],
-  vite: {
-    build: {
-      rollupOptions: {
-        external: ['googleapis']
-      }
-    }
-  }
+  ]
 });
