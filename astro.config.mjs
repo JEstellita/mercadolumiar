@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  output: 'static',
+  output: 'hybrid',
   adapter: vercel(),
   site: process.env.PUBLIC_SITE_URL || 'https://mercadolumiar.vercel.app',
   integrations: [

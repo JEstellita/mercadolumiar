@@ -1,7 +1,7 @@
 export const prerender = false;
 
-export function GET() {
-  return new Response(JSON.stringify({
+export async function GET() {
+  return Response.json({
     status: 'ok',
     message: 'API funcionando!',
     timestamp: new Date().toISOString(),
@@ -9,11 +9,6 @@ export function GET() {
       hasGoogleSheets: !!process.env.GOOGLE_SHEETS_ID,
       hasServiceEmail: !!process.env.GOOGLE_SERVICE_EMAIL,
       hasServiceKey: !!process.env.GOOGLE_SERVICE_KEY
-    }
-  }), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json'
     }
   });
 }
