@@ -1,9 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getSheetsRW, SHEET_ID, TAB_ARRECAD } from '../../lib/google/sheets';
 
-export const runtime = 'node';
-export const prerender = false;
-
 export const POST: APIRoute = async () => {
   if (!process.env.GOOGLE_SHEETS_ID || !process.env.GOOGLE_SERVICE_EMAIL || !process.env.GOOGLE_SERVICE_KEY) {
     return new Response(JSON.stringify({
