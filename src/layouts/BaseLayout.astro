@@ -32,6 +32,9 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
     <!-- Favicon -->
     <link rel="icon" href="/favicon.svg" />
 
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
     <!-- Import global CSS -->
     <style>
       /* Reset and base styles */
@@ -80,6 +83,24 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
         font-weight: 700;
         font-size: 1.25rem;
         color: #16a34a;
+        transition: all 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      .logo-img {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      }
+
+      .logo-img:hover {
+        transform: rotate(5deg);
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
       }
 
       .logo-icon {
@@ -91,6 +112,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
         align-items: center;
         justify-content: center;
         color: white;
+        font-size: 1.2rem;
       }
 
       .nav {
@@ -202,22 +224,28 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
       }
 
       .section {
-        padding: 4rem 0;
+        padding: 5rem 0;
+        background: white;
+      }
+
+      .section:nth-child(even) {
+        background: #fafafa;
       }
 
       .section-title {
         text-align: center;
-        font-size: 2.5rem;
-        font-weight: 700;
+        font-size: 2.75rem;
+        font-weight: 800;
         margin-bottom: 1rem;
         color: #1f2937;
+        letter-spacing: -0.01em;
       }
 
       .section-subtitle {
         text-align: center;
         font-size: 1.25rem;
         color: #6b7280;
-        margin-bottom: 3rem;
+        margin-bottom: 4rem;
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
@@ -351,11 +379,18 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
       .hero-section {
         position: relative;
         overflow: hidden;
-        padding: 5rem 0;
+        padding: 8rem 0;
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
       }
 
       .hero-section .container {
         text-align: center;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 2rem;
       }
 
       .hero-badge {
@@ -377,19 +412,27 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
       }
 
       .hero-title {
-        font-size: 3rem;
-        font-weight: 800;
+        font-size: 3.5rem;
+        font-weight: 900;
         color: #1f2937;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
         line-height: 1.1;
+        letter-spacing: -0.02em;
       }
 
       .hero-gradient {
-        background: linear-gradient(135deg, #16a34a, #22c55e);
+        background: linear-gradient(135deg, #059669, #16a34a, #22c55e);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         color: transparent;
+        background-size: 300% 300%;
+        animation: gradientShift 3s ease-in-out infinite;
+      }
+
+      @keyframes gradientShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
 
       .hero-description {
@@ -465,17 +508,36 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 
       .product-card, .service-card {
         background: white;
-        border-radius: 1rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        border: 1px solid #e5e5e5;
-        padding: 2rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+        border: 1px solid #f3f4f6;
+        padding: 2.5rem;
         text-align: center;
-        transition: all 0.3s;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .product-card::before, .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #16a34a, #22c55e, #16a34a);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+      }
+
+      .product-card:hover::before, .service-card:hover::before {
+        transform: translateX(0);
       }
 
       .product-card:hover, .service-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(22, 163, 74, 0.15);
+        border-color: #bbf7d0;
       }
 
       .service-card {
@@ -592,12 +654,44 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
       }
 
       @media (max-width: 768px) {
+        .nav {
+          display: none;
+        }
+
+        .hero-section {
+          padding: 4rem 0;
+          min-height: 70vh;
+        }
+
+        .hero-section .container {
+          padding: 0 1rem;
+        }
+
         .hero-title {
-          font-size: 2rem;
+          font-size: 2.5rem;
         }
 
         .hero-description {
           font-size: 1.125rem;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .section-title {
+          font-size: 2.25rem;
+        }
+
+        .section-subtitle {
+          font-size: 1.125rem;
+        }
+
+        .progress-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
         }
 
         .decoration-1, .decoration-2, .decoration-3, .decoration-4 {
@@ -611,6 +705,28 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
         .cta-description {
           font-size: 1.125rem;
         }
+
+        .product-card, .service-card {
+          padding: 2rem;
+        }
+
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero-title {
+          font-size: 2rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .container {
+          padding: 0 1rem;
+        }
       }
     </style>
   </head>
@@ -621,7 +737,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
         <div class="header-content">
           <!-- Logo -->
           <a href="/" class="logo">
-            <div class="logo-icon">🌱</div>
+            <img src="/logo-mercado-biorregional.png" alt="Mercado Biorregional" class="logo-img" />
             <span>Mercado Lumiar</span>
           </a>
 
@@ -649,7 +765,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
           <!-- Logo e descrição -->
           <div>
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-              <div class="logo-icon">🌱</div>
+              <img src="/logo-mercado-biorregional.png" alt="Mercado Biorregional" class="logo-img" />
               <span style="font-size: 1.25rem; font-weight: 700;">Mercado Lumiar</span>
             </div>
             <p>

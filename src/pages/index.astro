@@ -66,7 +66,7 @@ const featuredServices = [
   <section class="hero-section">
     <div class="container">
       <!-- Hero badge -->
-      <div class="hero-badge">
+      <div class="hero-badge anime-fade-in">
         <svg fill="currentColor" viewBox="0 0 20 20">
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
         </svg>
@@ -74,20 +74,20 @@ const featuredServices = [
       </div>
 
       <!-- Hero title -->
-      <h1 class="hero-title">
+      <h1 class="hero-title anime-slide-up">
         Compre local,
         <br>
         <span class="hero-gradient">construa futuro</span>
       </h1>
 
       <!-- Hero description -->
-      <p class="hero-description">
+      <p class="hero-description anime-fade-in-delayed">
         Conecte-se diretamente com <strong style="color: #16a34a;">produtores e prestadores de serviços</strong> 
         em Lumiar e Biorregião. Uma plataforma que fortalece nossa economia local.
       </p>
 
       <!-- Hero CTAs -->
-      <div class="hero-buttons">
+      <div class="hero-buttons anime-buttons">
         <a href="/produtores" class="btn btn-primary">
           🛒 Ver Produtores
         </a>
@@ -99,10 +99,10 @@ const featuredServices = [
 
     <!-- Background decoration -->
     <div class="bg-decoration">
-      <div class="decoration-circle decoration-1"></div>
-      <div class="decoration-circle decoration-2"></div>
-      <div class="decoration-circle decoration-3"></div>
-      <div class="decoration-circle decoration-4"></div>
+      <div class="decoration-circle decoration-1 anime-float"></div>
+      <div class="decoration-circle decoration-2 anime-float-delayed"></div>
+      <div class="decoration-circle decoration-3 anime-float"></div>
+      <div class="decoration-circle decoration-4 anime-float-delayed"></div>
     </div>
   </section>
 
@@ -278,6 +278,115 @@ const featuredServices = [
             supporters: mockData.supporters
           }
         }));
+      }
+
+      // Anime.js animations
+      if (typeof anime !== 'undefined') {
+        // Fade in animations
+        anime({
+          targets: '.anime-fade-in',
+          opacity: [0, 1],
+          duration: 1000,
+          delay: 300,
+          easing: 'easeOutQuart'
+        });
+
+        anime({
+          targets: '.anime-fade-in-delayed',
+          opacity: [0, 1],
+          duration: 1000,
+          delay: 600,
+          easing: 'easeOutQuart'
+        });
+
+        // Slide up animation for title
+        anime({
+          targets: '.anime-slide-up',
+          translateY: [50, 0],
+          opacity: [0, 1],
+          duration: 1200,
+          delay: 400,
+          easing: 'easeOutCubic'
+        });
+
+        // Buttons animation
+        anime({
+          targets: '.anime-buttons .btn',
+          scale: [0.8, 1],
+          opacity: [0, 1],
+          duration: 800,
+          delay: anime.stagger(100, {start: 800}),
+          easing: 'easeOutBack'
+        });
+
+        // Floating decorations
+        anime({
+          targets: '.anime-float',
+          translateY: [-10, 10],
+          duration: 3000,
+          direction: 'alternate',
+          loop: true,
+          easing: 'easeInOutSine'
+        });
+
+        anime({
+          targets: '.anime-float-delayed',
+          translateY: [-10, 10],
+          duration: 3000,
+          direction: 'alternate',
+          loop: true,
+          delay: 1500,
+          easing: 'easeInOutSine'
+        });
+
+        // Cards animation on scroll
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              anime({
+                targets: entry.target,
+                translateY: [30, 0],
+                opacity: [0, 1],
+                duration: 600,
+                easing: 'easeOutQuart'
+              });
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        // Observe cards
+        document.querySelectorAll('.product-card, .service-card').forEach(card => {
+          card.style.opacity = '0';
+          observer.observe(card);
+        });
+
+        // Logo animation on load
+        anime({
+          targets: '.logo-img',
+          scale: [0.8, 1],
+          rotate: [0, 360],
+          duration: 1000,
+          easing: 'easeOutElastic(1, .8)'
+        });
+
+        // Progress bar animation
+        setTimeout(() => {
+          const progressFill = document.querySelector('.progress-fill');
+          if (progressFill) {
+            anime({
+              targets: progressFill,
+              width: progressFill.style.width,
+              duration: 2000,
+              easing: 'easeOutCubic'
+            });
+          }
+        }, 1000);
       }
     });
   </script>
