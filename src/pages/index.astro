@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const featuredProducts = [
+  {
+    title: "Hortaliças Orgânicas",
+    description: "Verduras frescas colhidas diariamente direto da horta",
+    provider: "Sítio Verde",
+    price: "R$ 15-25",
+    icon: "🥬"
+  },
+  {
+    title: "Mel Artesanal",
+    description: "Mel puro das flores silvestres das montanhas",
+    provider: "Apiário da Serra",
+    price: "R$ 35",
+    icon: "🍯"
+  },
+  {
+    title: "Queijos Artesanais",
+    description: "Queijos frescos e curados com leite local",
+    provider: "Laticínios do Vale",
+    price: "R$ 25-45",
+    icon: "🧀"
+  },
+  {
+    title: "Pães Caseiros",
+    description: "Pães artesanais assados em forno à lenha",
+    provider: "Padaria da Roça",
+    price: "R$ 8-15",
+    icon: "🍞"
+  },
+  {
+    title: "Café Especial",
+    description: "Grãos torrados na propriedade, sabor único da região",
+    provider: "Café das Montanhas",
+    price: "R$ 45",
+    icon: "☕"
+  },
+  {
+    title: "Frutas da Estação",
+    description: "Frutas sazonais colhidas no ponto certo de maturação",
+    provider: "Pomar Lumiar",
+    price: "R$ 10-20",
+    icon: "🍎"
+  }
+];
+
+const services = [
+  {
+    title: "Culinária Caseira",
+    description: "Pratos especiais para eventos e celebrações",
+    provider: "Chef da Roça",
+    price: "Sob consulta",
+    icon: "👨‍🍳"
+  },
+  {
+    title: "Transporte Sustentável",
+    description: "Entrega ecológica para toda a região",
+    provider: "Eco Transport",
+    price: "R$ 10-30",
+    icon: "🚚"
+  },
+  {
+    title: "Artesanato Local",
+    description: "Peças únicas feitas com materiais da região",
+    provider: "Ateliê Lumiar",
+    price: "R$ 50-200",
+    icon: "🎨"
+  }
+];
+---
+
+<BaseLayout title="Mercado Biorregional Lumiar">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">
+        Mercado Biorregional<br>Lumiar
+      </h1>
+      <p class="hero-subtitle">
+        Conectando produtores locais e fortalecendo nossa economia através de alimentos frescos, serviços sustentáveis e comércio justo.
+      </p>
+      <div class="hero-cta">
+        <a href="#produtos" class="btn btn-primary">Explorar Produtos</a>
+        <a href="/produtores" class="btn btn-outline">Conhecer Produtores</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="produtos" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Produtos em Destaque</h2>
+        <p class="section-subtitle">
+          Direto de quem produz em Lumiar e região. Frescos, saudáveis e com preços justos.
+        </p>
+      </div>
+      
+      <div class="cards-grid">
+        {featuredProducts.map((product) => (
+          <div class="card">
+            <div class="card-icon">
+              {product.icon}
+            </div>
+            <h3 class="card-title">{product.title}</h3>
+            <p class="card-description">{product.description}</p>
+            <div class="card-meta">
+              <span class="card-provider">{product.provider}</span>
+              <span class="card-price">{product.price}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="/produtores" class="btn btn-primary">
+          Ver Todos os Produtores
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="section" style="background: #f7fafc;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Como Funciona</h2>
+        <p class="section-subtitle">
+          Simples, direto e transparente
+        </p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-number">1</div>
+          <h3 class="feature-title">Explore</h3>
+          <p class="feature-description">
+            Navegue pelos produtores e prestadores de serviços locais. Veja fotos, descrições detalhadas e informações de contato.
+          </p>
+        </div>
+        <div class="feature">
+          <div class="feature-number">2</div>
+          <h3 class="feature-title">Conecte</h3>
+          <p class="feature-description">
+            Entre em contato direto via WhatsApp. Tire dúvidas, negocie preços e combine entregas ou retiradas.
+          </p>
+        </div>
+        <div class="feature">
+          <div class="feature-number">3</div>
+          <h3 class="feature-title">Fortaleça</h3>
+          <p class="feature-description">
+            Ao comprar local, você fortalece nossa economia e contribui para um futuro mais sustentável.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="servicos" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Serviços Locais</h2>
+        <p class="section-subtitle">
+          Prestadores de serviços da nossa comunidade
+        </p>
+      </div>
+      
+      <div class="cards-grid">
+        {services.map((service) => (
+          <div class="card">
+            <div class="card-icon">
+              {service.icon}
+            </div>
+            <h3 class="card-title">{service.title}</h3>
+            <p class="card-description">{service.description}</p>
+            <div class="card-meta">
+              <span class="card-provider">{service.provider}</span>
+              <span class="card-price">{service.price}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem;">
+        <a href="/produtores" class="btn btn-outline">
+          Conhecer Mais Serviços
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section" style="background: linear-gradient(135deg, #2f855a 0%, #38a169 100%); color: white;">
+    <div class="container" style="text-align: center;">
+      <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: white;">
+        Junte-se à nossa comunidade
+      </h2>
+      <p style="font-size: 1.125rem; margin-bottom: 2rem; opacity: 0.9;">
+        Ajude-nos a construir uma economia local forte e sustentável
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="/apoie" class="btn" style="background: white; color: #2f855a;">Apoiar Mensalmente</a>
+        <a href="/whatsapp" class="btn btn-outline" style="border-color: white; color: white;">Falar no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
