@@ -544,7 +544,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         });
 
         // Update progress bar animation
-        const progressBar = document.querySelector('.progress-bar');
+        const progressBar = document.querySelector('.progress-bar') as HTMLElement;
         if (progressBar) {
           setTimeout(() => {
             progressBar.style.width = '45%';
