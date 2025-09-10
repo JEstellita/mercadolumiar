@@ -445,6 +445,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <!-- Animation Scripts -->
     <script>
+      // Declare anime type
+      declare var anime: any;
+
       // Animate on scroll
       const observerOptions = {
         threshold: 0.1,
@@ -454,8 +457,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0) translateX(0)';
+            const target = entry.target as HTMLElement;
+            target.style.opacity = '1';
+            target.style.transform = 'translateY(0) translateX(0)';
           }
         });
       }, observerOptions);
@@ -487,17 +491,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           particle.style.animationDelay = Math.random() * 2 + 's';
           particles.appendChild(particle);
 
-          // Animate particle
-          anime({
-            targets: particle,
-            translateY: [0, -100],
-            translateX: [0, Math.random() * 100 - 50],
-            opacity: [0.6, 0],
-            duration: 3000,
-            easing: 'easeOutQuart',
-            loop: true,
-            delay: Math.random() * 2000
-          });
+          // Animate particle with anime.js if available
+          if (typeof anime !== 'undefined') {
+            anime({
+              targets: particle,
+              translateY: [0, -100],
+              translateX: [0, Math.random() * 100 - 50],
+              opacity: [0.6, 0],
+              duration: 3000,
+              easing: 'easeOutQuart',
+              loop: true,
+              delay: Math.random() * 2000
+            });
+          }
         }
       }
     </script>
